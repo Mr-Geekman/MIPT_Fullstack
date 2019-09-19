@@ -1,0 +1,74 @@
+.content {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+.content-nav h3 {
+    margin: 20px;
+}
+
+.content-nav ul {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.content-nav li {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.content-nav li:first-child::before {
+    content: "";
+}
+
+.content-nav li::before {
+    content: "↓";
+    position: absolute;
+    left: 50%;
+    top: -10px;
+}
+
+.content-nav a {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+}
+
+article {
+    margin: 10px;
+}
+
+article img {
+    float: left;
+    padding: 0 15px 15px 0px;
+}
+
+table {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid black;
+}
+
+td {
+    font-weight: 300;
+    text-align: center;
+}
+
+.email_section {
+    margin: 20px;
+}
+
+.email_form input, button{
+    margin: 5px 0;
+}
