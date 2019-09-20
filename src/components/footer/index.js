@@ -7,7 +7,7 @@ class Footer extends Component {
         return (
             <footer>
                 <p>
-                    © MapWatching.com 2019-2019
+                    © Gaze.com 2019-2019
                 </p>
             </footer>
         );
