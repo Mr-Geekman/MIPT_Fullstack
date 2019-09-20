@@ -9,7 +9,7 @@ class Main extends Component {
             <div className="content">
                 <main>
                     <article>
-                        <h1>MapWatching</h1>
+                        <h1>Gaze</h1>
                         <p>
                             Это проект по просмотру и созданию интерактивных карт.
                             Вы можете рассматривать картины великих художников...

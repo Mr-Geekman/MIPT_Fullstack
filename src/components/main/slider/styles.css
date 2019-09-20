@@ -1,11 +1,24 @@
-.slider {
-    width: 800px;
-    text-align: center;
-    overflow: hidden;
+.wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
-.slider > div {
-    scroll-snap-align: start;
+.slider {
+    width: 80%;
+    text-align: center;
+    overflow: hidden;
+    background-color: #dadcd5;
+}
+
+/*.slider > div {*/
+/*    scroll-snap-align: start;*/
+/*}*/
+
+.slider > link_row {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0);
+    height: 30px;
 }
 
 .slides {
@@ -16,4 +29,17 @@
 
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0);
 }

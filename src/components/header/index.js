@@ -6,12 +6,19 @@ class Header extends Component {
     render() {
         return (
             <header>
-                <nav className="primary-nav">
-                    <ul>
-                        <li className="logo"><a href="/">Логотип</a></li>
-                        <li><a href="#">Галерея</a></li>
-                    </ul>
-                </nav>
+                <div className="header-right">
+                    <nav className="primary-nav">
+                        <ul>
+                            <li className="logo">
+                                <a href="/">
+                                </a>
+                            </li>
+                            <li><a href="#">Галерея</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div className="header-left">
+                </div>
             </header>
         );
     }

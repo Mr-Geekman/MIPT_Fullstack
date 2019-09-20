@@ -24,7 +24,7 @@ class Slider extends Component {
                     id: 2,
                 },
                 {
-                    title: "Поклонение Волхвов Босха",
+                    title: "Поклонение Волхвов",
                     description: "Насыщенное путешествие по знаменитой картине Босха.",
                     img_url: "https://eclecticlightdotcom.files.wordpress.com/2016/06/boschadorationmagi3main.jpg",
                     id: 3,
@@ -35,12 +35,17 @@ class Slider extends Component {
 
     render() {
         return (
-            <div className="slider">
-                {this.state.listItems.map(task => linkSliderItem(task))}
-
-                <div className="slides">
-                    {this.state.listItems.map(task => sliderItem(task))}
+            <div className="wrapper">
+                <div className="left-arrow"></div>
+                <div className="slider">
+                    <div className="link_row">
+                        {this.state.listItems.map(task => linkSliderItem(task))}
+                    </div>
+                    <div className="slides">
+                        {this.state.listItems.map(task => sliderItem(task))}
+                    </div>
                 </div>
+                <div className="right-arrow"></div>
             </div>
         );
     }

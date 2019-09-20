@@ -1,5 +1,8 @@
 header {
-    background-color: darkgrey;
+    background-color: #20232a;
+    color: white;
+    display: flex;
+    justify-content: space-between;
 }
 
 .primary-nav {
@@ -24,4 +27,8 @@ header {
     text-decoration: none;
     padding: 10px 20px;
     color: white;
+}
+
+.logo > a {
+    background: url("../../static/img/logo.svg") no-repeat center center;
 }
