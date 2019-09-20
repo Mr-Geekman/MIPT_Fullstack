@@ -1,0 +1,19 @@
+.slider {
+    width: 800px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.slider > div {
+    scroll-snap-align: start;
+}
+
+.slides {
+    display: flex;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
