@@ -1,68 +1,42 @@
-This project was bootstrapped with [Create React Index](https://github.com/facebook/create-react-app).
+# MapWatching (тестовое название)
 
-## Available Scripts
+Проект в рамках курса Fullstack-разработки на 5 семестре ФИВТ МФТИ.
 
-In the project directory, you can run:
+Веб-приложение предназначено для просмотра и редактирования интерактивных карт
+с текстовыми маркерами.
 
-### `npm start`
+## Отображение карты
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Ссылки для разработки
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+1. [Примеры создания drag&drop карт](https://konvajs.org/docs/sandbox/Canvas_Scrolling.html)
+2. [Создание быстрой карты](https://chairnerd.seatgeek.com/high-performance-map-interactions-using-html5-canvas/)
+3. [Примеры создания зума изображения и его перемещения](https://codepen.io/techslides/pen/zowLd)
+4. [Примеры работы с canvas](https://codepo8.github.io/canvas-images-and-pixels/)
+5. [Могут быть проблемы с уменьшением изображения (там надо корректно подбирать пиксели, чтобы качество было выше)](https://stackoverflow.com/questions/18922880/html5-canvas-resize-downscale-image-high-quality)
 
-### `npm test`
+### Текущая идея реализации просмотра карт
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Картинка будет отрисовываться в canvas. Всю картинку сразу не храним, а режем 
+ее на куски и отображаем кусками, чтобы не отображать слишком уж большие картинки.
 
-### `npm run build`
+Навигация по карте осуществляется при помощи drag&drop и зумирования.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Текст для маркеров рекомендуется поместить при загрузке страницы в специальные блоки,
+а потом при нажатии на определенный маркер скрывать все остальные и показывать
+соответствующий блок с текстом.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Для реализации самих маркеров есть два варианта:
+1. Делать их DOM-объектами, например, div с кнопками внутри. 
+2. Делать их canvas-картинками, при нажатии на которые, происходят некоторые действия.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+У каждого из подходов есть свои преимущества и недостатки.
+#### DOM преимущества
+* Кнопки уже реализованы
+* Размеры объектов будут фиксированными
+* Их можно изменять при помощи css (например сделать прозрачными плавно в случае нажатия)
 
-### `npm run eject`
+#### Canvas преимущества
+* Кажется, что производительность будет выше, так как не придется манипулировать
+с таким количеством DOM-объектов (манипулировать картинками должно быть проще браузеру)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React Index documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web Index
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
