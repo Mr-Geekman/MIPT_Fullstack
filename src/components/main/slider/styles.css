@@ -1,7 +1,8 @@
 .wrapper {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .slider {
@@ -11,14 +12,15 @@
     background-color: #dadcd5;
 }
 
-/*.slider > div {*/
-/*    scroll-snap-align: start;*/
-/*}*/
+.slider > div {
+    scroll-snap-align: start;
+}
 
-.slider > link_row {
-    position: absolute;
+.slider > .link_row {
     background-color: rgba(0, 0, 0, 0);
     height: 30px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .slides {
@@ -43,3 +45,72 @@
     border-radius: 10px;
     background-color: rgba(0,0,0,0);
 }
+
+.arrow {
+    cursor: pointer;
+    width: 40px;
+    padding: 5px 0px 2px 0px;
+}
+
+.right-arrow {
+    padding-right: 10px;
+}
+
+.left-arrow {
+    padding-left: 10px;
+}
+
+.arrow div {
+    position: relative;
+    top: 8px;
+    width: 40px;
+    height: 2px;
+    background-color: #778295;
+    left:0;
+    display: block;
+}
+
+.arrow div::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background-color: #778295;
+}
+
+.arrow div::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    background-color: #778295;
+}
+
+.right-arrow div::after {
+    top: -4px;
+    right: -2px;
+    transform: rotate(45deg);
+}
+
+.right-arrow div::before {
+    top: 4px;
+    right: -2px;
+    transform: rotate(-45deg);
+}
+
+.left-arrow div::after {
+    top: -4px;
+    right: 30px;
+    transform: rotate(-45deg);
+}
+
+.left-arrow div::before {
+    top: 4px;
+    right: 30px;
+    transform: rotate(45deg);
+}
+
+/*.linkers {*/
+/*    width: 40%;*/
+/*}*/
+

@@ -23,12 +23,15 @@
 .shadow > .title {
     text-decoration: underline;
     text-decoration-color: white;
-    font: bold 16pt "BookOS";
+    font-weight: bold;
+    font-size: 16pt;
+    font-family: "BookOS", "Bookman Old Style", SansSerif;
     color: white;
 }
 
 .shadow > .description {
-    font: 14pt "Bookman Old Style";
+    font-size: 14pt;
+    font-family: "BookOS", "Bookman Old Style";
     text-decoration-color: white;
     color: white;
 }

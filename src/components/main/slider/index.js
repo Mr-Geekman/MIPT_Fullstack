@@ -36,10 +36,17 @@ class Slider extends Component {
     render() {
         return (
             <div className="wrapper">
-                <div className="left-arrow"></div>
                 <div className="slider">
                     <div className="link_row">
-                        {this.state.listItems.map(task => linkSliderItem(task))}
+                        <div className="arrow left-arrow">
+                            <div></div>
+                        </div>
+                        <div className="linkers">
+                            {this.state.listItems.map(task => linkSliderItem(task))}
+                        </div>
+                        <div className="arrow right-arrow">
+                            <div></div>
+                        </div>
                     </div>
                     <div className="slides">
                         {this.state.listItems.map(task => sliderItem(task))}
