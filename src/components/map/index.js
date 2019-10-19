@@ -27,8 +27,7 @@ class Map extends Component {
         }
         return (
             <main>
-                <h2>Тут должен быть просмотрщик карт для {this.state.name}.</h2>
-                <h2>Найден: {this.state.found + ""}</h2>
+                <canvas></canvas>
             </main>
         );
     }
