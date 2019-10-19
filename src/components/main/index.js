@@ -9,7 +9,7 @@ class Main extends Component {
     render() {
         return (
             <React.Fragment>
-                <Header/>
+                {/*<Header/>*/}
                 <div className="content">
                     <main>
                         <article>
@@ -33,7 +33,7 @@ class Main extends Component {
                         </article>
                     </main>
                 </div>
-                <Footer/>
+                {/*<Footer/>*/}
             </React.Fragment>
         );
     }

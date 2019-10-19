@@ -3,13 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import MainRouter from './routes';
+import Header from "./components/header";
+import Footer from './components/footer';
 import * as serviceWorker from './serviceWorker';
 
 const render = () =>
     ReactDOM.render(
+        <React.Fragment>
             <BrowserRouter>
+                <Header/>
                 <MainRouter/>
-            </BrowserRouter>,
+                <Footer/>
+            </BrowserRouter>
+        </React.Fragment>,
         document.getElementById('root')
     );
 render();
