@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import './styles.css';
 
 class Header extends Component {
@@ -10,10 +11,11 @@ class Header extends Component {
                     <nav className="primary-nav">
                         <ul>
                             <li className="logo">
-                                <a href="/">
-                                </a>
+                                <Link to="/"/>
                             </li>
-                            <li><a href="#">Галерея</a></li>
+                            <li>
+                                <Link to="/gallery">Галерея</Link>
+                            </li>
                         </ul>
                     </nav>
                 </div>
