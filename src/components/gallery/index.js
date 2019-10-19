@@ -7,13 +7,9 @@ class Gallery extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <Header/>
-                <div className="content-gallery">
-                    <SliderDesk />
-                </div>
-                <Footer/>
-            </React.Fragment>
+            <div className="content-gallery">
+                <SliderDesk />
+            </div>
         );
     }
 }
