@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Stage, Layer, Text } from 'react-konva';
 import PageNotFound from "../../components/page_not_found"
 import './styles.css';
 
@@ -27,7 +28,11 @@ class Map extends Component {
         }
         return (
             <main>
-                <canvas></canvas>
+                <Stage width={window.innerWidth} height={window.innerHeight}>
+                    <Layer>
+                        <Text text="Test text" fill="white" fontSize="24" draggable/>
+                    </Layer>
+                </Stage>
             </main>
         );
     }

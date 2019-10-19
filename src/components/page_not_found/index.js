@@ -11,8 +11,8 @@ class PageNotFound extends Component {
                 <main>
                     <article>
                         <h2>Похоже, что вы забрели не туда, такой страницы не существует</h2>
-                        <img className={"not_found_picture"} src={NotFoundPicture} alt="Bosch Hell"/>
-                        <p className={"tip_to_main"}>Советуем вам вернуться обратно на <Link to="/">главную страницу</Link></p>
+                        <img className={"not-found-picture"} src={NotFoundPicture} alt="Bosch Hell"/>
+                        <p className={"tip-to-main"}>Советуем вам вернуться обратно на <Link to="/">главную страницу</Link></p>
                     </article>
                 </main>
             </div>
