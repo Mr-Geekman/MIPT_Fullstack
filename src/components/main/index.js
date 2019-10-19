@@ -13,7 +13,9 @@ class Main extends Component {
                 <div className="content">
                     <main>
                         <article>
-                            <div className="full_dark_logo" />
+                            <div className="full_dark_logo">
+                                Gaze
+                            </div>
                             <h2>О проекте</h2>
                             <p>
                                 Это проект по просмотру и созданию интерактивных карт. Вы можете как сами создавать и редактировать

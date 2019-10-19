@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import sliderItem from "../../sliderItem";
 import sliderWrapper from "./sliderWrapper";
+import './styles.css'
 
 class SliderDesk extends Component {
     constructor(props) {
@@ -34,7 +34,7 @@ class SliderDesk extends Component {
 
     render() {
         return (
-            <div className="desk">
+            <div className="maps-table">
                 {this.state.listItems.map(task => sliderWrapper(task))}
             </div>
         );

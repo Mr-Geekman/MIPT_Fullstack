@@ -1,5 +1,7 @@
-.desk {
+.maps-table {
     display: flex;
-    justify-content: center;
-    wrap-option: wrap;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    margin: 2% 5% 5%;
 }

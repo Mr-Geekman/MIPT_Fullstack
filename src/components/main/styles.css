@@ -61,6 +61,8 @@ article {
 .full_dark_logo {
     width: 100%;
     height: 200px;
-    background: url("../../static/img/full_dark_logo.svg") no-repeat center center;
-    background-size: 300px;
+    text-align: center;
+    font-size: 110pt;
+    font-family: "Georgia", "Times New Roman", "sans-serif";
+    color: #bbbbbc;
 }
