@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Header from "../../components/header";
 import Footer from '../../components/footer';
+import SliderDesk from './sliderDesk';
 
 class Gallery extends Component {
 
@@ -8,12 +9,8 @@ class Gallery extends Component {
         return (
             <React.Fragment>
                 <Header/>
-                <div className="content">
-                    <main>
-                        <article>
-                            <h2>Тут будет галерея со всеми картами</h2>
-                        </article>
-                    </main>
+                <div className="content-gallery">
+                    <SliderDesk />
                 </div>
                 <Footer/>
             </React.Fragment>

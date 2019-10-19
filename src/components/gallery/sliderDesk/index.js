@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import './styles.css';
-import linkSliderItem from "./linkSliderItem";
 import sliderItem from "../../sliderItem";
+import sliderWrapper from "./sliderWrapper";
 
-class Slider extends Component {
+class SliderDesk extends Component {
     constructor(props) {
         super(props);
 
@@ -35,27 +34,11 @@ class Slider extends Component {
 
     render() {
         return (
-            <div className="wrapper">
-                <div className="slider">
-                    <div className="link_row">
-                        <div className="arrow left-arrow">
-                            <div></div>
-                        </div>
-                        <div className="linkers">
-                            {this.state.listItems.map(task => linkSliderItem(task))}
-                        </div>
-                        <div className="arrow right-arrow">
-                            <div></div>
-                        </div>
-                    </div>
-                    <div className="slides">
-                        {this.state.listItems.map(task => sliderItem(task))}
-                    </div>
-                </div>
-                <div className="right-arrow"></div>
+            <div className="desk">
+                {this.state.listItems.map(task => sliderWrapper(task))}
             </div>
         );
     }
 }
 
-export default Slider;
+export default SliderDesk;

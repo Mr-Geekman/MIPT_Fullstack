@@ -1,0 +1,5 @@
+.desk {
+    display: flex;
+    justify-content: center;
+    wrap-option: wrap;
+}
