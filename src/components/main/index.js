@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import BootstrapSlider from "./BootstrapSlider";
 import Header from "../../components/header";
 import Footer from '../../components/footer';
 import './styles.css';
@@ -31,7 +32,9 @@ class Main extends Component {
                                 Ниже вы можете посмотреть небольшие примеры карт,
                                 которые могут получиться.
                             </p>
-                            <Slider />
+                            <div className="slider-wrapper">
+                                <BootstrapSlider />
+                            </div>
                         </article>
                     </main>
                 </div>
