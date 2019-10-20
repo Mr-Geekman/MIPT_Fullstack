@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import BootstrapSlider from "./BootstrapSlider";
-import Header from "../../components/header";
-import Footer from '../../components/footer';
 import './styles.css';
-import Slider from "./slider";
 
 class Main extends Component {
 
