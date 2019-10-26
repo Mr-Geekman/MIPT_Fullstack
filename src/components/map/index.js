@@ -59,12 +59,43 @@ class MapImage extends React.Component {
 class Map extends Component {
     constructor(props) {
         super(props);
-        this.state = {...this.props.match.params, found: false, pending: true};
+        this.state = {...this.props.match.params,
+            found: false,
+            pending: true,
+            stageScale: 1,
+            stageX: 0,
+            stageY: 0
+        };
     }
 
     componentDidMount() {
         this.setState({found: true, pending: false});
     }
+
+    handleWheel = e => {
+        console.log('scaling');
+        e.evt.preventDefault();
+
+        const scaleBy = 1.01;
+        const stage = e.target.getStage();
+        const oldScale = stage.scaleX();
+        const mousePointTo = {
+            x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
+            y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale
+        };
+
+        const newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+        stage.scale({ x: newScale, y: newScale });
+
+        this.setState({
+            stageScale: newScale,
+            stageX:
+                -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
+            stageY:
+                -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale
+        });
+    };
 
     render() {
         if(this.state.pending) {
@@ -99,8 +130,14 @@ class Map extends Component {
         };
         return (
             <main>
-                <Stage width={visible_width} height={visible_height}>
-                    <Layer draggable dragBoundFunc={bound_function}>
+                <Stage width={visible_width} height={visible_height}
+                   onWheel={this.handleWheel}
+                   scaleX={this.state.stageScale}
+                   scaleY={this.state.stageScale}
+                   x={this.state.stageX}
+                   y={this.state.stageY}
+                >
+                    <Layer draggable /*dragBoundFunc={bound_function}*/>
                         <MapImage src="https://src.lotrrol.ru/complete_map_9.jpg"/>
                     </Layer>
                 </Stage>
