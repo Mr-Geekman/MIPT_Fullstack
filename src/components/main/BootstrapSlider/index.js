@@ -5,8 +5,7 @@ import {
     Carousel,
     CarouselItem,
     CarouselControl,
-    CarouselIndicators,
-    CarouselCaption
+    CarouselIndicators
 } from 'reactstrap';
 import sliderItem from "../../sliderItem";
 
