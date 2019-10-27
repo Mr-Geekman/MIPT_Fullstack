@@ -55,6 +55,18 @@ class MapImage extends React.Component {
   }
 }
 
+function getImageData(name) {
+    if (name === 'lsdk') {
+        return {
+            src: 'https://src.lotrrol.ru/complete_map_9.jpg',
+            width: 10512,
+            height: 5197
+        };
+    }
+    else {
+        console.log('problems');
+    }
+}
 
 class Map extends Component {
     constructor(props) {
@@ -62,10 +74,15 @@ class Map extends Component {
         this.state = {...this.props.match.params,
             found: false,
             pending: true,
-            stageScale: 1,
-            stageX: 0,
             stageY: 0
         };
+        this.state.imageData = getImageData(this.state.name);
+        this.state.stageScale = Math.min(
+            window.innerWidth / this.state.imageData.width,
+            window.innerHeight / this.state.imageData.height * 0.8
+            );
+        this.state.stageX = (window.innerWidth -
+            this.state.imageData.width * this.state.stageScale) / 2;
     }
 
     componentDidMount() {
@@ -73,7 +90,6 @@ class Map extends Component {
     }
 
     handleWheel = e => {
-        console.log('scaling');
         e.evt.preventDefault();
 
         const scaleBy = 1.01;
@@ -120,8 +136,8 @@ class Map extends Component {
         let bound_function = function (position) {
             console.log('called');
             // Придумать, откуда брать размеры картинки (вариант: redux)
-            let map_width = 10512 - visible_width;
-            let map_height = 5197 - visible_height;
+            let map_width = this.state.imageData.width - visible_width;
+            let map_height = this.state.imageData.height - visible_height;
             let new_x = Math.max(Math.min(0, position.x), -map_width);
             let new_y = Math.max(Math.min(0, position.y), -map_height);
             console.log(position.y);
@@ -138,7 +154,7 @@ class Map extends Component {
                    y={this.state.stageY}
                 >
                     <Layer draggable /*dragBoundFunc={bound_function}*/>
-                        <MapImage src="https://src.lotrrol.ru/complete_map_9.jpg"/>
+                        <MapImage src={this.state.imageData.src} />
                     </Layer>
                 </Stage>
             </main>
