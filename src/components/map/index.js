@@ -107,7 +107,7 @@ class Map extends Component {
     handleWheel = e => {
         e.evt.preventDefault();
 
-        const scaleBy = 1.01;
+        const scaleBy = 1.05;
         const stage = e.target.getStage();
         const oldScale = stage.scaleX();
         const mousePointTo = {
