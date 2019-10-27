@@ -56,15 +56,27 @@ class MapImage extends React.Component {
 }
 
 function getImageData(name) {
-    if (name === 'lsdk') {
-        return {
-            src: 'https://src.lotrrol.ru/complete_map_9.jpg',
-            width: 10512,
-            height: 5197
-        };
-    }
-    else {
-        console.log('problems');
+    switch (name) {
+        case 'tolkien':
+            return {
+                src: 'https://src.lotrrol.ru/complete_map_9.jpg',
+                width: 10512,
+                height: 5197
+            };
+        case 'lovecraft':
+            return {
+                src: 'https://img0.etsystatic.com/034/0/5927863/il_fullxfull.570449466_5zkr.jpg',
+                width: 1000,
+                height: 777
+            };
+        case 'bosch':
+            return {
+                src: 'http://s02.yapfiles.ru/files/770610/J._Bosch_Adoration_of_the_Magi_Triptych.jpg',
+                width: 2535,
+                height: 2170
+            };
+        default:
+            return null;
     }
 }
 
@@ -77,12 +89,14 @@ class Map extends Component {
             stageY: 0
         };
         this.state.imageData = getImageData(this.state.name);
-        this.state.stageScale = Math.min(
-            window.innerWidth / this.state.imageData.width,
-            window.innerHeight / this.state.imageData.height * 0.8
+        if (this.state.imageData) {
+            this.state.stageScale = Math.min(
+                window.innerWidth / this.state.imageData.width,
+                window.innerHeight / this.state.imageData.height * 0.8
             );
-        this.state.stageX = (window.innerWidth -
-            this.state.imageData.width * this.state.stageScale) / 2;
+            this.state.stageX = (window.innerWidth -
+                this.state.imageData.width * this.state.stageScale) / 2;
+        }
     }
 
     componentDidMount() {
