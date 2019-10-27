@@ -12,11 +12,21 @@ header {
 .primary-nav ul {
     display: flex;
     list-style: none;
+    padding-left: 0px;
 }
 
 .primary-nav li {
     display: flex;
     text-align: center;
+    align-items: center;
+    margin-left: 10px;
+    min-width: 30pt;
+    font-size: 14pt;
+}
+
+.typical {
+    margin-top: 10px;
+    font-family: "BookOS";
 }
 
 .primary-nav a {
@@ -25,11 +35,28 @@ header {
     justify-content: center;
     width: 100%;
     text-decoration: none;
-    padding: 10px 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     color: white;
 }
 
-.logo > a {
-    background: url("../../static/img/logo.svg") no-repeat center center;
+.logo {
+    width: 30pt;
+    text-align: center;
+}
 
+.g-logo {
+    font-family: "Times New Roman", sans-serif;
+    color: #8c8e8a;
+    font-size: 28pt;
+    position: absolute;
+}
+
+.z-logo {
+    font-family: "Times New Roman", sans-serif;
+    color: #ddddde;
+    font-size: 23pt;
+    position: absolute;
+    margin-top: 11pt;
+    margin-left: 9pt;
 }

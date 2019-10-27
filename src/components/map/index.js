@@ -135,7 +135,7 @@ class Map extends Component {
                 </main>
             )
         }
-        if(!this.state.found) {
+        if(!this.state.found || !this.state.imageData) {
             return (
                 <PageNotFound/>
             );

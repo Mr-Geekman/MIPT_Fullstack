@@ -11,9 +11,12 @@ class Header extends Component {
                     <nav className="primary-nav">
                         <ul>
                             <li className="logo">
-                                <Link to="/"/>
+                                <Link to="/">
+                                        <span className="g-logo">G</span>
+                                        <span className="z-logo">Z</span>
+                                </Link>
                             </li>
-                            <li>
+                            <li className="typical">
                                 <Link to="/gallery">Галерея</Link>
                             </li>
                         </ul>
