@@ -21,12 +21,18 @@ header {
     align-items: center;
     margin-left: 10px;
     min-width: 30pt;
-    font-size: 14pt;
 }
 
 .typical {
     margin-top: 10px;
-    font-family: "BookOS";
+    font-size: 14pt;
+    font-family: "BookOS", sans-serif;
+    transition-duration: 2s;
+}
+
+.typical:hover {
+    text-decoration: underline;
+    transition-duration: 2s;
 }
 
 .primary-nav a {

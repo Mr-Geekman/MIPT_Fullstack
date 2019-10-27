@@ -8,3 +8,31 @@ img.not-found-picture {
 p.tip-to-main {
     text-align: center;
 }
+
+main {
+
+}
+
+.content-404 {
+    background-image: url("../../static/img/404.jpeg");
+    background-position: center;
+    background-size: 100vw;
+    background-position-y: -20vh;
+    background-repeat: no-repeat;
+    height: 78vh;
+    color: white;
+}
+
+.text-404 {
+    padding-top: 30vh;
+    padding-left: 10vw;
+    font-family: "Times New Roman", sans-serif;
+    font-size: 23pt;
+    max-width: 600px;
+}
+
+.text-404 > span {
+    background: rgba(0, 0, 0, 0.8);
+    padding-left: 10px;
+    padding-right: 10px;
+}

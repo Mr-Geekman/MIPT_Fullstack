@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Stage, Layer, Image } from 'react-konva';
 import PageNotFound from "../../components/page_not_found";
 import './styles.css';
+import visibleHeight from "../visible_height";
 
 
 class MapImage extends React.Component {
@@ -140,13 +141,11 @@ class Map extends Component {
                 <PageNotFound/>
             );
         }
-        let header_height = document.getElementsByTagName('header')[0].clientHeight;
-        let footer_height = document.getElementsByTagName('footer')[0].clientHeight;
         // Проблема: visible_width и visible_height не обновляются.
         // Для воспроизведения нужно перезагрузить страницу с открытым режимом разработчика, а затем выклюить его.
         // В таком случае часть экрана никак не будет заполнена изображением.
         let visible_width = window.innerWidth;
-        let visible_height = window.innerHeight - header_height - footer_height;
+        let visible_height = visibleHeight();
         let bound_function = function (position) {
             console.log('called');
             // Придумать, откуда брать размеры картинки (вариант: redux)
