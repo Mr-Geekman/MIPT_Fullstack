@@ -1,60 +1,29 @@
 import React, {Component} from 'react';
 import { Stage, Layer, Image } from 'react-konva';
 import PageNotFound from "../../components/page_not_found";
-import './styles.css';
+import './styles.scss';
 import visibleHeight from "../visible_height";
 
 
-class MapImage extends React.Component {
-    state = {
-        image: null
-    };
+const MapLoader = () => {
+    let visible_width = window.innerWidth;
+    let visible_height = visibleHeight();
+    return (
+        <div className={'map-loader-container'} style={{width: visible_width, height:visible_height}}>
+            <div className="loading-text">
+                <span className="loading-text-words">З</span>
+                <span className="loading-text-words">А</span>
+                <span className="loading-text-words">Г</span>
+                <span className="loading-text-words">Р</span>
+                <span className="loading-text-words">У</span>
+                <span className="loading-text-words">З</span>
+                <span className="loading-text-words">К</span>
+                <span className="loading-text-words">А</span>
+            </div>
+        </div>
+    )
+};
 
-    componentDidMount() {
-        this.loadImage();
-    }
-
-    componentDidUpdate(oldProps) {
-        if (oldProps.src !== this.props.src) {
-            this.loadImage();
-        }
-    }
-
-    componentWillUnmount() {
-        this.image.removeEventListener('load', this.handleLoad);
-    }
-
-    loadImage() {
-        // save to "this" to remove "load" handler on unmount
-        this.image = new window.Image();
-        this.image.src = this.props.src;
-        this.image.addEventListener('load', this.handleLoad);
-    }
-
-    handleLoad = () => {
-        // after setState react-konva will update canvas and redraw the layer
-        // because "image" property is changed
-        this.setState({
-            image: this.image
-        });
-        // if you keep same image object during source updates
-        // you will have to update layer manually:
-        // this.imageNode.getLayer().batchDraw();
-    };
-
-    render() {
-        return (
-            <Image
-                x={this.props.x}
-                y={this.props.y}
-                image={this.state.image}
-                ref={node => {
-                    this.imageNode = node;
-                }}
-            />
-        );
-    }
-}
 
 function getImageData(name) {
     switch (name) {
@@ -87,6 +56,7 @@ class Map extends Component {
         this.state = {...this.props.match.params,
             found: false,
             pending: true,
+            loaded: false,
             stageY: 0
         };
         this.state.imageData = getImageData(this.state.name);
@@ -98,7 +68,18 @@ class Map extends Component {
             this.state.stageX = (window.innerWidth -
                 this.state.imageData.width * this.state.stageScale) / 2;
         }
+
+        this.image = new window.Image();
+        this.image.src = this.state.imageData.src;
+        this.image.addEventListener('load', this.handleLoad);
     }
+
+    handleLoad = () => {
+        this.setState({
+            loaded: true,
+            image: this.image
+        });
+    };
 
     componentDidMount() {
         this.setState({found: true, pending: false});
@@ -129,11 +110,10 @@ class Map extends Component {
     };
 
     render() {
-        if(this.state.pending) {
+        if(this.state.pending || !this.state.loaded) {
             return (
-                <main>
-                    <h2>Loading...</h2>
-                </main>
+                <MapLoader>
+                </MapLoader>
             )
         }
         if(!this.state.found || !this.state.imageData) {
@@ -167,7 +147,9 @@ class Map extends Component {
                    y={this.state.stageY}
                 >
                     <Layer draggable /*dragBoundFunc={bound_function}*/>
-                        <MapImage src={this.state.imageData.src} />
+                        <Image
+                            image={this.state.image}
+                        />
                     </Layer>
                 </Stage>
             </main>
