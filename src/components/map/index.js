@@ -3,6 +3,8 @@ import { Stage, Layer, Image } from 'react-konva';
 import PageNotFound from "../../components/page_not_found";
 import './styles.scss';
 import visibleHeight from "../visible_height";
+import marker from "./marker"
+import InformationPanel from "./informationPanel";
 
 
 const MapLoader = () => {
@@ -37,7 +39,62 @@ function getImageData(name) {
             return {
                 src: 'https://img0.etsystatic.com/034/0/5927863/il_fullxfull.570449466_5zkr.jpg',
                 width: 1000,
-                height: 777
+                height: 777,
+                markers: [
+                    {
+                        radius: 15,
+                        id: "cthulu",
+                        x: 227,
+                        y: 510
+                    },
+                    {
+                        radius: 5,
+                        id: "rlyech",
+                        x: 188,
+                        y: 572
+                    }
+                ],
+                inform: {
+                    "cthulu": [
+                        {
+                            type: 'h1',
+                            header: 'Ктулху'
+                        },
+                        {
+                            type: 'img',
+                            src: "https://pbs.twimg.com/media/D_CMONrXkAAlXyd.jpg"
+                        },
+                        {
+                            type: "paragraph",
+                            text: "На вид Ктулху разными частями тела подобен осьминогу, " +
+                                "дракону и человеку: судя по барельефу Энтони Уилкокса, " +
+                                "героя «Зова Ктулху», и таинственному древнему изваянию из " +
+                                "рассказа, чудовище имеет голову с щупальцами, гуманоидное тело," +
+                                " покрытое чешуёй, и пару рудиментарных крыльев."
+                        }
+                    ],
+                    "rlyech": [
+                        {
+                            type: 'h1',
+                            header: 'Р’льех'
+                        },
+                        {
+                            type: 'img',
+                            src: "https://img-fotki.yandex.ru/get/6602/44938346.2e/0_83159_53362ce6_XL"
+                        },
+                        {
+                            type: "paragraph",
+                            text: "Р’льех — город, созданный Древними в незапамятные времена. В " +
+                                "настоящее время он затоплен и находится на дне Мирового океана."  +
+                                " Архитектура Р’льеха характеризуется Лавкрафтом как «циклопическая» и " +
+                                "«неевклидова» (Лавкрафт подразумевает, что Р’льех построен в большем числе" +
+                                " измерений, чем способен воспринимать человеческий разум, поэтому люди " +
+                                "видят Р’льех искажённым). На стенах зданий Р’льеха высечены ужасные " +
+                                "изображения и иероглифы."
+                        }
+                    ]
+
+                }
             };
         case 'bosch':
             return {
@@ -72,6 +129,9 @@ class Map extends Component {
         this.image = new window.Image();
         this.image.src = this.state.imageData.src;
         this.image.addEventListener('load', this.handleLoad);
+
+        this.state.markersOpacity = 1;
+        this.state.infrom = null;
     }
 
     handleLoad = () => {
@@ -108,6 +168,22 @@ class Map extends Component {
                 -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale
         });
     };
+    
+    handleClick = (id) => {
+        return e => {
+            e.evt.preventDefault();
+            this.setState({
+                inform: this.state.imageData.inform[id],
+                markersOpacity: 0
+            });
+        }
+    }
+
+    handleBack = e => {
+        this.setState({
+            markersOpacity: 1
+        });
+    }
 
     render() {
         if(this.state.pending || !this.state.loaded) {
@@ -137,8 +213,15 @@ class Map extends Component {
             console.log('');
             return {x: new_x, y: new_y};
         };
+
         return (
             <main>
+                <InformationPanel
+                    source={this.state.inform}
+                    opacity={1 - this.state.markersOpacity}
+                    height={visibleHeight()}
+                    back={this.handleBack}
+                />
                 <Stage width={visible_width} height={visible_height}
                    onWheel={this.handleWheel}
                    scaleX={this.state.stageScale}
@@ -150,6 +233,15 @@ class Map extends Component {
                         <Image
                             image={this.state.image}
                         />
+                        {this.state.imageData.markers.map(
+                            //handleClick каррируется
+                            //туда передается только id, аргумент e попадает при нажатии
+                            marker_props => marker(Object.assign(marker_props,
+                                {
+                                    handler: this.handleClick,
+                                    opacity: this.state.markersOpacity
+                                }))
+                        )}
                     </Layer>
                 </Stage>
             </main>
