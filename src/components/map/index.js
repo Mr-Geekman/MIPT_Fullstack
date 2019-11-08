@@ -220,11 +220,19 @@ class Map extends Component {
 
         return (
             <main>
+                <div
+                    className={"back-button"}
+                    onClick={this.handleBack}
+                    style={{
+                        opacity: 1 - this.state.markersOpacity
+                    }}
+                >
+                    <span>{"НАЗАД"}</span>
+                </div>
                 <InformationPanel
                     source={this.state.inform}
                     opacity={1 - this.state.markersOpacity}
                     height={visibleHeight()}
-                    back={this.handleBack}
                 />
                 <Stage width={visible_width} height={visible_height}
                    onWheel={this.handleWheel}

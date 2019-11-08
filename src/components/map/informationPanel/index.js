@@ -9,7 +9,7 @@ function renderNode(node) {
             );
         case 'img':
             return (
-                <img className={"article-img"} src={node.src}/>
+                <img className={"article-img"} src={node.src} draggable={"false"}/>
             );
         case 'paragraph':
             return (
@@ -44,9 +44,6 @@ class InformationPanel extends Component {
                     height: this.props.height
                 }
             }>
-                <button className={"back-button"} onClick={this.props.back}>
-                    Назад
-                </button>
                 {this.props.source.map(node => renderNode(node))}
             </div>
         );

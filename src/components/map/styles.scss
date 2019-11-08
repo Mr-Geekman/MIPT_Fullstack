@@ -43,3 +43,20 @@
     	-ms-filter: blur(4px);
 	}
 }
+
+.back-button {
+	display: block;
+	position: fixed;
+	width: 50px;
+	text-align: center;
+	background-color: white;
+	cursor: pointer;
+	border: 6px double black;
+	z-index: 9999;
+	transition-duration: 2s;
+	margin-left: 15px;
+	margin-top: 15px;
+	font-family: "Bookman Old Style", "BookOS", "Times New Roman", sans-serif;
+	font-size: 12pt;
+}
+

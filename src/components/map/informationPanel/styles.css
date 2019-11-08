@@ -1,9 +1,9 @@
 .informationPanel {
     background-color: white;
     font-family: "Bookman Old Style", BookOS, "Times New Roman", sans-serif;
-    font-size: 14pt;
+    font-size: 13pt;
     width: 40vw;
-    transition-duration: 1s;
+    transition-duration: 2s;
     display: block;
     position: fixed;
     margin-left: 60vw;
@@ -14,6 +14,7 @@
 }
 
 .article-img {
+    display: block;
     margin: auto;
     max-width: 100%;
 }
