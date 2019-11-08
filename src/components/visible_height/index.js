@@ -1,6 +1,6 @@
 function visibleHeight() {
-    if (!document.getElementsByTagName('header') ||
-        !document.getElementsByTagName('footer')) {
+    if (!document.getElementsByTagName('header').length ||
+        !document.getElementsByTagName('footer').length) {
         return 0;
     }
     let header_height = document.getElementsByTagName('header')[0].clientHeight;

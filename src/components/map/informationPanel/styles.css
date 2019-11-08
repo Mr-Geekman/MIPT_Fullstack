@@ -1,0 +1,23 @@
+.informationPanel {
+    background-color: white;
+    font-family: "Bookman Old Style", BookOS, "Times New Roman", sans-serif;
+    font-size: 14pt;
+    width: 40vw;
+    transition-duration: 1s;
+    display: block;
+    position: fixed;
+    margin-left: 60vw;
+    margin-top: 0;
+    z-index: 9999;
+    overflow: auto;
+    padding: 10px;
+}
+
+.article-img {
+    margin: auto;
+    max-width: 100%;
+}
+
+.back-button {
+    width: 100px;
+}
