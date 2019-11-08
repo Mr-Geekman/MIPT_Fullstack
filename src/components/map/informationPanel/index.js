@@ -26,11 +26,15 @@ class InformationPanel extends Component {
     }
 
     render(){
+        let margin_left = "100vw";
+        if (this.props.show === 1){
+            margin_left = "60vw";
+        }
         if (!this.props.source) {
             return (
                 <div className={"informationPanel"} style={
                     {
-                        opacity: this.props.opacity,
+                        "margin-left": margin_left,
                         height: this.props.height
                     }
                 }>
@@ -40,7 +44,7 @@ class InformationPanel extends Component {
         return (
             <div className={"informationPanel"} style={
                 {
-                    opacity: this.props.opacity,
+                    "margin-left": margin_left,
                     height: this.props.height
                 }
             }>

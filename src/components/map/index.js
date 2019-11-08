@@ -189,6 +189,14 @@ class Map extends Component {
         });
     }
 
+    getMarginLeft() {
+        if (this.state.markersOpacity == 0) {
+            return "15px";
+        }
+        return "-100px";
+
+    }
+
     render() {
         if(this.state.pending || !this.state.loaded) {
             return (
@@ -224,22 +232,24 @@ class Map extends Component {
                     className={"back-button"}
                     onClick={this.handleBack}
                     style={{
-                        opacity: 1 - this.state.markersOpacity
+                        "margin-left": this.getMarginLeft()
                     }}
                 >
                     <span>{"НАЗАД"}</span>
                 </div>
                 <InformationPanel
                     source={this.state.inform}
-                    opacity={1 - this.state.markersOpacity}
+                    show={1 - this.state.markersOpacity}
                     height={visibleHeight()}
                 />
-                <Stage width={visible_width} height={visible_height}
-                   onWheel={this.handleWheel}
-                   scaleX={this.state.stageScale}
-                   scaleY={this.state.stageScale}
-                   x={this.state.stageX}
-                   y={this.state.stageY}
+                <Stage
+                    width={visible_width}
+                    height={visible_height}
+                    onWheel={this.handleWheel}
+                    scaleX={this.state.stageScale}
+                    scaleY={this.state.stageScale}
+                    x={this.state.stageX}
+                    y={this.state.stageY}
                 >
                     <Layer draggable /*dragBoundFunc={bound_function}*/>
                         <Image

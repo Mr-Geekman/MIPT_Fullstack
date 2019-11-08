@@ -3,12 +3,11 @@
     font-family: "Bookman Old Style", BookOS, "Times New Roman", sans-serif;
     font-size: 13pt;
     width: 40vw;
-    transition-duration: 2s;
+    transition-duration: 1s;
     display: block;
     position: fixed;
-    margin-left: 60vw;
     margin-top: 0;
-    z-index: 9999;
+    z-index: 1;
     overflow: auto;
     padding: 10px;
 }
