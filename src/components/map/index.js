@@ -33,7 +33,9 @@ function getImageData(name) {
             return {
                 src: 'https://src.lotrrol.ru/complete_map_9.jpg',
                 width: 10512,
-                height: 5197
+                height: 5197,
+                markers: [],
+                inform: {}
             };
         case 'lovecraft':
             return {
@@ -100,7 +102,9 @@ function getImageData(name) {
             return {
                 src: 'http://s02.yapfiles.ru/files/770610/J._Bosch_Adoration_of_the_Magi_Triptych.jpg',
                 width: 2535,
-                height: 2170
+                height: 2170,
+                markers: [],
+                inform: {}
             };
         default:
             return null;
