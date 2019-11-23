@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework import permissions
 
 from .models import Map, MapMark, Profile
 
@@ -26,9 +27,12 @@ class MapSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# TODO: api для получения текущего пользователя и просмотренных им меток
+# TODO: api для обозначения метки, как просмотренной пользователем
 class ProfileSerializer(serializers.ModelSerializer):
     """Сериализоатор профиля пользователя."""
     watched_marks = MapMarkCutSerializer(many=True)
+    permission_classes = (permissions.IsAuthenticated,)
 
     class Meta:
         model = Profile
