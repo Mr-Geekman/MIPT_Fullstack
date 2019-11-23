@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Map, MapMark
 
-# Register your models here.
+admin.site.register(Map)
+admin.site.register(MapMark)
