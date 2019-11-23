@@ -66,3 +66,25 @@ header {
     margin-top: 11pt;
     margin-left: 9pt;
 }
+
+.user_div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 300px;
+}
+
+.user_div > .button {
+    height: 80%;
+    border-radius: 2px;
+    border-width: 5px;
+    border-color: #b0b0b1;
+    border-style: solid;
+    background-color: #727273;
+    padding: 6px;
+    font-family: "BookOS", sans-serif;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}

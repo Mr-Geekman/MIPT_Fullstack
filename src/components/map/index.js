@@ -145,8 +145,14 @@ class Map extends Component {
         });
     };
 
+    handleWindowLoad = (e) => {
+        e.preventDefault();
+        
+    }
+
     componentDidMount() {
         this.setState({found: true, pending: false});
+        window.addEventListener('load', this.handleWindowLoad);
     }
 
     handleWheel = e => {
@@ -240,7 +246,7 @@ class Map extends Component {
                 <InformationPanel
                     source={this.state.inform}
                     show={1 - this.state.markersOpacity}
-                    height={visibleHeight()}
+                    height={this.state.height}
                 />
                 <Stage
                     width={visible_width}

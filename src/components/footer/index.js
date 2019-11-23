@@ -3,6 +3,9 @@ import './styles.css';
 
 class Footer extends Component {
 
+    componentDidMount() {
+    }
+
     render() {
         return (
             <footer>
