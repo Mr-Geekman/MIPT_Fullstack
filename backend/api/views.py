@@ -7,6 +7,7 @@ from .serializers import MapSerializer
 
 
 # Можно упростить : https://www.django-rest-framework.org/tutorial/3-class-based-views/
+# ListApiView
 class ListMapsView(APIView):
     """Контроллер для работы с несколькими картами"""
     def get(self, request):
