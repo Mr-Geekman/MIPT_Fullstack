@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, Component } from 'react';
-import visibleHeight from "../../redux-components/containers/handled_visible_height";
 import { Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
 import './styles.css'
 
@@ -21,7 +20,7 @@ class AuthorizationForm extends Component {
         this.setState({
             height: height
         });
-    }
+    };
 
     componentDidMount() {
         window.addEventListener('load', this.handleLoad);
