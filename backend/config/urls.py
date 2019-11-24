@@ -22,8 +22,8 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
-    path('api/auth', include('jwt_auth.urls')),
+    path('api/maps/', include('maps.urls')),
+    path('api/auth/', include('jwt_auth.urls')),
 ]
 
 
