@@ -2,16 +2,14 @@ import React, {Component} from 'react';
 import { Stage, Layer, Image } from 'react-konva';
 import PageNotFound from "../../components/page_not_found";
 import './styles.scss';
-import visibleHeight from "../visible_height";
 import marker from "./marker"
 import InformationPanel from "./informationPanel";
 
 
-const MapLoader = () => {
+const MapLoader = ({height}) => {
     let visible_width = window.innerWidth;
-    let visible_height = visibleHeight();
     return (
-        <div className={'map-loader-container'} style={{width: visible_width, height:visible_height}}>
+        <div className={'map-loader-container'} style={{width: visible_width, height:height}}>
             <div className="loading-text">
                 <span className="loading-text-words">З</span>
                 <span className="loading-text-words">А</span>
@@ -118,7 +116,8 @@ class Map extends Component {
             found: false,
             pending: true,
             loaded: false,
-            stageY: 0
+            stageY: 0,
+            height: 0
         };
         this.state.imageData = getImageData(this.state.name);
         if (this.state.imageData) {
@@ -136,8 +135,11 @@ class Map extends Component {
 
         this.state.markersOpacity = 1;
         this.state.infrom = null;
+        this.handleWindowLoad = this.handleWindowLoad.bind(this);
     }
 
+
+    // загрузка изображения
     handleLoad = () => {
         this.setState({
             loaded: true,
@@ -145,8 +147,36 @@ class Map extends Component {
         });
     };
 
+    //загрузка окна
+    handleWindowLoad = (e) => {
+        e.preventDefault();
+        let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -
+            document.getElementsByTagName('footer')[0].clientHeight;
+        this.setState({
+            height: height
+        });
+    };
+
     componentDidMount() {
+        if (document.getElementsByTagName('footer')) {
+            document.getElementsByTagName('footer')[0].style.display = 'none';
+        }
+        if (document.getElementsByTagName("footer") &&
+            document.getElementsByTagName("header")){
+            let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -
+                document.getElementsByTagName('footer')[0].clientHeight;
+            this.setState({
+                height: height
+            });
+        }
+        else {
+            window.addEventListener('load', this.handleWindowLoad);
+        }
         this.setState({found: true, pending: false});
+    }
+
+    componentWillUnmount() {
+        document.getElementsByTagName('footer')[0].style.display = 'block';
     }
 
     handleWheel = e => {
@@ -200,7 +230,9 @@ class Map extends Component {
     render() {
         if(this.state.pending || !this.state.loaded) {
             return (
-                <MapLoader>
+                <MapLoader
+                    height={this.state.height}
+                >
                 </MapLoader>
             )
         }
@@ -213,7 +245,7 @@ class Map extends Component {
         // Для воспроизведения нужно перезагрузить страницу с открытым режимом разработчика, а затем выклюить его.
         // В таком случае часть экрана никак не будет заполнена изображением.
         let visible_width = window.innerWidth;
-        let visible_height = visibleHeight();
+        let visible_height = this.state.height;
         let bound_function = function (position) {
             console.log('called');
             // Придумать, откуда брать размеры картинки (вариант: redux)
@@ -240,11 +272,11 @@ class Map extends Component {
                 <InformationPanel
                     source={this.state.inform}
                     show={1 - this.state.markersOpacity}
-                    height={visibleHeight()}
+                    height={visible_height}
                 />
                 <Stage
                     width={visible_width}
-                    height={visible_height}
+                    height={this.state.height}
                     onWheel={this.handleWheel}
                     scaleX={this.state.stageScale}
                     scaleY={this.state.stageScale}

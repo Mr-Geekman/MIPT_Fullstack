@@ -3,17 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import MainRouter from './routes';
-import Header from "./components/header";
-import Footer from './components/footer';
+import HandledHeader from "./redux-components/containers/handled_header";
+import Footer from "./components/footer";
 import * as serviceWorker from './serviceWorker';
+import {Provider} from 'react-redux';
+import { createStore} from "redux";
+import reducer from "./redux-components/reducers";
+
+let store = createStore(reducer);
 
 const render = () =>
     ReactDOM.render(
         <React.Fragment>
             <BrowserRouter>
-                <Header/>
-                <MainRouter/>
-                <Footer/>
+                <Provider store={store}>
+                    <HandledHeader />
+                    <MainRouter/>
+                    <Footer/>
+                </Provider>
             </BrowserRouter>
         </React.Fragment>,
         document.getElementById('root')
