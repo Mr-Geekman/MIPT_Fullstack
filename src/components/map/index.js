@@ -138,6 +138,8 @@ class Map extends Component {
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
     }
 
+
+    // загрузка изображения
     handleLoad = () => {
         this.setState({
             loaded: true,
@@ -145,6 +147,7 @@ class Map extends Component {
         });
     };
 
+    //загрузка окна
     handleWindowLoad = (e) => {
         e.preventDefault();
         let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -

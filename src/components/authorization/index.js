@@ -13,6 +13,7 @@ class AuthorizationForm extends Component {
         this.handleLoad = this.handleLoad.bind(this)
     }
 
+    // загрузка окна
     handleLoad = (e) => {
         let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -
             document.getElementsByTagName('footer')[0].clientHeight;
@@ -23,7 +24,17 @@ class AuthorizationForm extends Component {
     };
 
     componentDidMount() {
-        window.addEventListener('load', this.handleLoad);
+        if (document.getElementsByTagName('header') &&
+            document.getElementsByTagName('footer')){
+            let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -
+                document.getElementsByTagName('footer')[0].clientHeight;
+            this.setState({
+                height: height
+            });
+        }
+        else {
+            window.addEventListener('load', this.handleLoad);
+        }
     }
 
     render() {
