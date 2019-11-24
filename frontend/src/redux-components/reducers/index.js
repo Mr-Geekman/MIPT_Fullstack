@@ -1,4 +1,4 @@
-import {FOOTER_HEIGHT, HEADER_HEIGHT, USER_NAME} from "../actions";
+import {FOOTER_HEIGHT, HEADER_HEIGHT, USER_NAME} from "../actions/index";
 
 const initialState = {
     user_name: undefined,
