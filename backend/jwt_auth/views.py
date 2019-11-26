@@ -16,8 +16,6 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 class LoginView(APIView):
     """Контроллер для входа."""
-    permission_classes = (permissions.AllowAny,)
-
     def post(self, request):
         username = request.data.get('username', '')
         password = request.data.get('password', '')
@@ -38,8 +36,6 @@ class LoginView(APIView):
 
 class RegisterView(APIView):
     """Контроллер регистрации."""
-    permission_classes = (permissions.AllowAny,)
-
     def post(self, request):
         username = request.data.get('username', '')
         password = request.data.get('password', '')
