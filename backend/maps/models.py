@@ -38,7 +38,7 @@ class SaveMarkImage:
         :return: результирующий путь
         """
         # создаем путь и не забываем про расширение
-        url = '{}:{}'.format(instance.map_id, instance.title)
+        url = '{}_{}'.format(instance.map_id, instance.title)
         return "{}.{}".format(os.path.join(self.path, url),
                               filename.split('.')[-1])
 
