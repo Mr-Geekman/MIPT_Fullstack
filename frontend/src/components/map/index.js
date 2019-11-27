@@ -114,24 +114,26 @@ class Map extends Component {
         super(props);
         this.state = {...this.props.match.params,
             found: false,
-            pending: true,
-            loaded: false,
+            pending: true, // загружаются данные
+            loaded: false, // загружается изображение
             stageY: 0,
-            height: 0
+            height: 0,
+            imageData: {}
         };
-        this.state.imageData = getImageData(this.state.name);
-        if (this.state.imageData) {
-            this.state.stageScale = Math.min(
-                window.innerWidth / this.state.imageData.width,
-                window.innerHeight / this.state.imageData.height * 0.8
-            );
-            this.state.stageX = (window.innerWidth -
-                this.state.imageData.width * this.state.stageScale) / 2;
-        }
+        //this.state.imageData = getImageData(this.state.name);
 
-        this.image = new window.Image();
-        this.image.src = this.state.imageData.src;
-        this.image.addEventListener('load', this.handleLoad);
+        // if (this.state.imageData) {
+        //     this.state.stageScale = Math.min(
+        //         window.innerWidth / this.state.imageData.width,
+        //         window.innerHeight / this.state.imageData.height * 0.8
+        //     );
+        //     this.state.stageX = (window.innerWidth -
+        //         this.state.imageData.width * this.state.stageScale) / 2;
+        // }
+        //
+        // this.image = new window.Image();
+        // this.image.src = this.state.imageData.src;
+        // this.image.addEventListener('load', this.handleLoad);
 
         this.state.markersOpacity = 1;
         this.state.infrom = null;
@@ -158,6 +160,35 @@ class Map extends Component {
     };
 
     componentDidMount() {
+        // Пока запрос не работает
+        // Возможно, проблема с CORS
+        // Обработать ошибку 404 тоже где-то здесь
+        // Вынести адрес api и префикс maps в константы
+        // Переписать через .then, сейчас написано так только чтобы понять, где была ошибка (не нашлась)
+        const request = async() => {
+            let url = 'http://127.0.0.1:8000/api/maps/' + this.state.name + '/';
+            console.log(url);
+            const data = await fetch(url, {'mode': 'no-cors', 'method':"get"})
+                .then(response => response.json())
+                .catch(err => console.log('Send failed', err));
+
+            this.setState({ imageData: data });
+
+            this.state.stageScale = Math.min(
+                window.innerWidth / this.state.imageData.width,
+                window.innerHeight / this.state.imageData.height * 0.8
+            );
+            this.state.stageX = (window.innerWidth -
+                this.state.imageData.width * this.state.stageScale) / 2;
+
+            this.image = new window.Image();
+            this.image.src = 'http://127.0.0.1:8000/' + this.state.imageData.image;
+            this.image.addEventListener('load', this.handleLoad);
+
+            this.setState({found: true, pending: false});
+        };
+        request();
+
         if (document.getElementsByTagName('footer')) {
             document.getElementsByTagName('footer')[0].style.display = 'none';
         }
@@ -172,7 +203,6 @@ class Map extends Component {
         else {
             window.addEventListener('load', this.handleWindowLoad);
         }
-        this.setState({found: true, pending: false});
     }
 
     componentWillUnmount() {
