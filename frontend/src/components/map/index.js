@@ -118,7 +118,8 @@ class Map extends Component {
             loaded: false, // загружается изображение
             stageY: 0,
             height: 0,
-            imageData: {}
+            imageData: {},
+            image: {},
         };
         //this.state.imageData = getImageData(this.state.name);
 
@@ -137,6 +138,7 @@ class Map extends Component {
 
         this.state.markersOpacity = 1;
         this.state.infrom = null;
+        this.handleLoad = this.handleLoad.bind(this);
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
     }
 
@@ -167,8 +169,7 @@ class Map extends Component {
         // Переписать через .then, сейчас написано так только чтобы понять, где была ошибка (не нашлась)
         const request = async() => {
             let url = 'http://127.0.0.1:8000/api/maps/' + this.state.name + '/';
-            console.log(url);
-            const data = await fetch(url, {'mode': 'no-cors', 'method':"get"})
+            const data = await fetch(url, {'method':"get"})
                 .then(response => response.json())
                 .catch(err => console.log('Send failed', err));
 
@@ -178,18 +179,18 @@ class Map extends Component {
                     window.innerWidth / this.state.imageData.width,
                     window.innerHeight / this.state.imageData.height * 0.8
                 );
+                console.log(this.state.imageData);
                 this.state.stageX = (window.innerWidth -
                     this.state.imageData.width * this.state.stageScale) / 2;
 
                 this.image = new window.Image();
-                this.image.src = 'http://127.0.0.1:8000/' + this.state.imageData.image;
+                this.image.src = 'http://127.0.0.1:8000' + this.state.imageData.image;
                 this.image.addEventListener('load', this.handleLoad);
 
                 this.setState({found: true, pending: false});
             }
         };
         request();
-        console.log(this.state);
 
         if (document.getElementsByTagName('footer')) {
             document.getElementsByTagName('footer')[0].style.display = 'none';
