@@ -173,21 +173,23 @@ class Map extends Component {
                 .catch(err => console.log('Send failed', err));
 
             this.setState({ imageData: data });
+            if(this.state.imageData) {
+                this.state.stageScale = Math.min(
+                    window.innerWidth / this.state.imageData.width,
+                    window.innerHeight / this.state.imageData.height * 0.8
+                );
+                this.state.stageX = (window.innerWidth -
+                    this.state.imageData.width * this.state.stageScale) / 2;
 
-            this.state.stageScale = Math.min(
-                window.innerWidth / this.state.imageData.width,
-                window.innerHeight / this.state.imageData.height * 0.8
-            );
-            this.state.stageX = (window.innerWidth -
-                this.state.imageData.width * this.state.stageScale) / 2;
+                this.image = new window.Image();
+                this.image.src = 'http://127.0.0.1:8000/' + this.state.imageData.image;
+                this.image.addEventListener('load', this.handleLoad);
 
-            this.image = new window.Image();
-            this.image.src = 'http://127.0.0.1:8000/' + this.state.imageData.image;
-            this.image.addEventListener('load', this.handleLoad);
-
-            this.setState({found: true, pending: false});
+                this.setState({found: true, pending: false});
+            }
         };
         request();
+        console.log(this.state);
 
         if (document.getElementsByTagName('footer')) {
             document.getElementsByTagName('footer')[0].style.display = 'none';
