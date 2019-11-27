@@ -134,7 +134,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # django-cors-headers settings
 CORS_ORIGIN_WHITELIST = [
-    'http://127.0.0.1:5000'
+    'http://127.0.0.1:5000',
+    'http://127.0.0.1:3000',
 ]
 
 

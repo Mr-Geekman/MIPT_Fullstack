@@ -1,5 +1,6 @@
 import os
 
+from PIL import Image
 from django.db import models
 from django.utils.deconstruct import deconstructible
 from django.contrib.auth.models import User
@@ -99,6 +100,10 @@ class Map(models.Model):
     # малое изображение карты
     thumbnail = models.ImageField('Миниатюра карты',
                                   upload_to=SaveMapImage('maps/thumbnails'))
+    # ширина
+    width = models.IntegerField('Ширина карты', blank=True)
+    # высота
+    height = models.IntegerField('Высота карты', blank=True)
 
     def __str__(self):
         return self.title
@@ -107,6 +112,10 @@ class Map(models.Model):
         """Переопределяем сохранение игровой карты."""
         if not self.url:
             self.url = pytils.translit.slugify(self.title)
+
+        img = Image.open(self.image)
+        self.width = img.width
+        self.height = img.height
         super(Map, self).save(*args, **kwargs)
 
 
