@@ -24,3 +24,10 @@ yarn-debug.log*
 yarn-error.log*
 
 .idea
+
+# pycache
+*.pyc
+*.pyo
+
+# node
+/frontend/node_modules
