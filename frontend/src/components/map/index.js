@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { Stage, Layer, Image } from 'react-konva';
+
+import * as Constants from "../../constants/constants"
 import PageNotFound from "../../components/page_not_found";
 import './styles.scss';
 import marker from "./marker"
@@ -24,91 +26,6 @@ const MapLoader = ({height}) => {
     )
 };
 
-
-function getImageData(name) {
-    switch (name) {
-        case 'tolkien':
-            return {
-                src: 'https://src.lotrrol.ru/complete_map_9.jpg',
-                width: 10512,
-                height: 5197,
-                markers: [],
-                inform: {}
-            };
-        case 'lovecraft':
-            return {
-                src: 'https://img0.etsystatic.com/034/0/5927863/il_fullxfull.570449466_5zkr.jpg',
-                width: 1000,
-                height: 777,
-                markers: [
-                    {
-                        radius: 15,
-                        id: "cthulu",
-                        x: 227,
-                        y: 510
-                    },
-                    {
-                        radius: 5,
-                        id: "rlyech",
-                        x: 188,
-                        y: 572
-                    }
-                ],
-                inform: {
-                    "cthulu": [
-                        {
-                            type: 'h1',
-                            header: 'Ктулху'
-                        },
-                        {
-                            type: 'img',
-                            src: "https://pbs.twimg.com/media/D_CMONrXkAAlXyd.jpg"
-                        },
-                        {
-                            type: "paragraph",
-                            text: "На вид Ктулху разными частями тела подобен осьминогу, " +
-                                "дракону и человеку: судя по барельефу Энтони Уилкокса, " +
-                                "героя «Зова Ктулху», и таинственному древнему изваянию из " +
-                                "рассказа, чудовище имеет голову с щупальцами, гуманоидное тело," +
-                                " покрытое чешуёй, и пару рудиментарных крыльев."
-                        }
-                    ],
-                    "rlyech": [
-                        {
-                            type: 'h1',
-                            header: 'Р’льех'
-                        },
-                        {
-                            type: 'img',
-                            src: "https://img-fotki.yandex.ru/get/6602/44938346.2e/0_83159_53362ce6_XL"
-                        },
-                        {
-                            type: "paragraph",
-                            text: "Р’льех — город, созданный Древними в незапамятные времена. В " +
-                                "настоящее время он затоплен и находится на дне Мирового океана."  +
-                                " Архитектура Р’льеха характеризуется Лавкрафтом как «циклопическая» и " +
-                                "«неевклидова» (Лавкрафт подразумевает, что Р’льех построен в большем числе" +
-                                " измерений, чем способен воспринимать человеческий разум, поэтому люди " +
-                                "видят Р’льех искажённым). На стенах зданий Р’льеха высечены ужасные " +
-                                "изображения и иероглифы."
-                        }
-                    ]
-
-                }
-            };
-        case 'bosch':
-            return {
-                src: 'http://s02.yapfiles.ru/files/770610/J._Bosch_Adoration_of_the_Magi_Triptych.jpg',
-                width: 2535,
-                height: 2170,
-                markers: [],
-                inform: {}
-            };
-        default:
-            return null;
-    }
-}
-
 class Map extends Component {
     constructor(props) {
         super(props);
@@ -124,20 +41,6 @@ class Map extends Component {
             stageScale: 1,
             stageX: 1,
         };
-        //this.state.imageData = getImageData(this.state.name);
-
-        // if (this.state.imageData) {
-        //     this.state.stageScale = Math.min(
-        //         window.innerWidth / this.state.imageData.width,
-        //         window.innerHeight / this.state.imageData.height * 0.8
-        //     );
-        //     this.state.stageX = (window.innerWidth -
-        //         this.state.imageData.width * this.state.stageScale) / 2;
-        // }
-        //
-        // this.image = new window.Image();
-        // this.image.src = this.state.imageData.src;
-        // this.image.addEventListener('load', this.handleLoad);
 
         this.handleLoad = this.handleLoad.bind(this);
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
@@ -162,16 +65,24 @@ class Map extends Component {
     };
 
     componentDidMount() {
-        // Пока запрос не работает
-        // Возможно, проблема с CORS
-        // Обработать ошибку 404 тоже где-то здесь
-        // Вынести адрес api и префикс maps в константы
-        // Переписать через .then, сейчас написано так только чтобы понять, где была ошибка (не нашлась)
+        // TODO: Настроить нормальную работу с CORS
         const request = async() => {
-            let url = 'http://127.0.0.1:8000/api/maps/' + this.state.name + '/';
-            const data = await fetch(url, {'method':"get"})
-                .then(response => response.json())
+            let url = Constants.MAPS_PREFIX + this.state.name + '/';
+
+            const response = await fetch(url)
                 .catch(err => console.log('Send failed', err));
+
+            let data;
+            // Обработка ошибки 404
+            if(response.status === 404) {
+                this.setState({found: false, loaded: true});
+                return;
+            } else if(response.status === 200) {
+                data = await response.json();
+            } else {
+                console.log('Unexpected response: ');
+                console.log(response);
+            }
 
             this.setState({ imageData: data });
             if(this.state.imageData) {
@@ -185,7 +96,7 @@ class Map extends Component {
                 this.setState({stageX: stageXValue});
 
                 let map_image = new window.Image();
-                map_image.src = 'http://127.0.0.1:8000' + this.state.imageData.image;
+                map_image.src = Constants.BACKEND_PREFIX + this.state.imageData.image;
                 map_image.addEventListener('load', this.handleLoad);
                 this.setState({image: map_image, found: true});
             }
@@ -215,7 +126,7 @@ class Map extends Component {
     handleWheel = e => {
         e.evt.preventDefault();
 
-        const scaleBy = 1.05;
+        const scaleBy = 0.95;
         const stage = e.target.getStage();
         const oldScale = stage.scaleX();
         const mousePointTo = {
@@ -253,7 +164,7 @@ class Map extends Component {
     };
 
     getMarginLeft() {
-        if (this.state.markersOpacity == 0) {
+        if (this.state.markersOpacity === 0) {
             return "15px";
         }
         return "-100px";
@@ -261,7 +172,7 @@ class Map extends Component {
     }
 
     render() {
-        if(this.state.pending || !this.state.loaded) {
+        if(!this.state.loaded) {
             return (
                 <MapLoader
                     height={this.state.height}
