@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
 from rest_framework import permissions
 
-from .serializers import TokenSerializer
+from .serializers import TokenSerializer, UserSerializer
 
 
 # Получаем настройки JWT
@@ -53,3 +53,13 @@ class RegisterView(APIView):
         )
         new_user.save()
         return Response(status=status.HTTP_201_CREATED)
+
+
+class CurrentUserView(APIView):
+    """Контроллер вывода текущего пользователя."""
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)

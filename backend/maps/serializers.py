@@ -32,8 +32,7 @@ class MapSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     """Сериализоатор профиля пользователя."""
     watched_marks = MapMarkCutSerializer(many=True)
-    permission_classes = (permissions.IsAuthenticated,)
 
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ['watched_marks']
