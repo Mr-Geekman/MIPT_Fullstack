@@ -1,16 +1,17 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import './styles.css';
+import * as Constants from "../../constants/constants";
 
 const address = (map_name) => (
     'maps/' + map_name
 );
 
-const sliderItem = ({title, description, img_url, id, map_name}) => (
-    <Link to={address(map_name)}>
+const sliderItem = ({title, description, thumbnail, id, url}) => (
+    <Link to={address(url)}>
         <div className="sliderItem" id={id} style={
             {
-                background: "url(" + img_url + ")  center center no-repeat"
+                background: "url(" + Constants.BACKEND_PREFIX + thumbnail + ")  center center no-repeat"
             }
         } >
             <div className="shadow">
