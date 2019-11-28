@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Stage, Layer, Image } from 'react-konva';
 
-import * as Constants from "../../constants/constants"
+import * as Constants from "../../constants/constants";
 import PageNotFound from "../../components/page_not_found";
 import './styles.scss';
 import marker from "./marker"
