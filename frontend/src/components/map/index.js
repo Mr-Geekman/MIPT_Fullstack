@@ -37,7 +37,7 @@ class Map extends Component {
             imageData: {},
             image: {},
             markersOpacity: 1,
-            inform: null,
+            inform: null, // TODO: обойтись без этой штуки, пользваться лишь marks
             stageScale: 1,
             stageX: 1,
         };

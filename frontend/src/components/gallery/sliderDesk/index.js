@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import sliderWrapper from "./sliderWrapper";
 import './styles.css'
 
+// TODO: избавиться, сделать через fetch
 class SliderDesk extends Component {
     constructor(props) {
         super(props);

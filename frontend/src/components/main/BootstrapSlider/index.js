@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 import sliderItem from "../../sliderItem";
 
+// TODO: избавиться, сделать через fetch
 const items = [
     {
         title: "Карта Средиземья",
@@ -33,7 +34,7 @@ const items = [
         id: 3,
         map_name: 'bosch',
     }
-]
+];
 const BootstrapSlider = (props) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
@@ -42,18 +43,18 @@ const BootstrapSlider = (props) => {
         if (animating) return;
         const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
         setActiveIndex(nextIndex);
-    }
+    };
 
     const previous = () => {
         if (animating) return;
         const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
         setActiveIndex(nextIndex);
-    }
+    };
 
     const goToIndex = (newIndex) => {
         if (animating) return;
         setActiveIndex(newIndex);
-    }
+    };
 
     const slides = items.map((item) => {
         return (
@@ -74,10 +75,10 @@ const BootstrapSlider = (props) => {
             <style>
                 {
                     `.custom-tag {
-              max-width: 100%;
-              height: 274px;
-              background: black;
-            }`
+                          max-width: 100%;
+                          height: 274px;
+                          background: black;
+                    }`
                 }
             </style>
             <Carousel
@@ -92,6 +93,6 @@ const BootstrapSlider = (props) => {
             </Carousel>
         </div>
     );
-}
+};
 
 export default BootstrapSlider;
