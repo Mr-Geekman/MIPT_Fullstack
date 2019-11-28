@@ -113,13 +113,16 @@ class Map extends Component {
     constructor(props) {
         super(props);
         this.state = {...this.props.match.params,
-            found: false,
-            pending: true, // загружаются данные
+            found: false, // найдена ли карта
             loaded: false, // загружается изображение
-            stageY: 0,
+            stageY: 1,
             height: 0,
             imageData: {},
             image: {},
+            markersOpacity: 1,
+            inform: null,
+            stageScale: 1,
+            stageX: 1,
         };
         //this.state.imageData = getImageData(this.state.name);
 
@@ -136,8 +139,6 @@ class Map extends Component {
         // this.image.src = this.state.imageData.src;
         // this.image.addEventListener('load', this.handleLoad);
 
-        this.state.markersOpacity = 1;
-        this.state.infrom = null;
         this.handleLoad = this.handleLoad.bind(this);
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
     }
@@ -146,8 +147,7 @@ class Map extends Component {
     // загрузка изображения
     handleLoad = () => {
         this.setState({
-            loaded: true,
-            image: this.image
+            loaded: true
         });
     };
 
@@ -175,19 +175,19 @@ class Map extends Component {
 
             this.setState({ imageData: data });
             if(this.state.imageData) {
-                this.state.stageScale = Math.min(
+                const stageScaleValue = Math.min(
                     window.innerWidth / this.state.imageData.width,
                     window.innerHeight / this.state.imageData.height * 0.8
                 );
-                console.log(this.state.imageData);
-                this.state.stageX = (window.innerWidth -
+                this.setState({stageScale: stageScaleValue});
+                const stageXValue = (window.innerWidth -
                     this.state.imageData.width * this.state.stageScale) / 2;
+                this.setState({stageX: stageXValue});
 
-                this.image = new window.Image();
-                this.image.src = 'http://127.0.0.1:8000' + this.state.imageData.image;
-                this.image.addEventListener('load', this.handleLoad);
-
-                this.setState({found: true, pending: false});
+                let map_image = new window.Image();
+                map_image.src = 'http://127.0.0.1:8000' + this.state.imageData.image;
+                map_image.addEventListener('load', this.handleLoad);
+                this.setState({image: map_image, found: true});
             }
         };
         request();
@@ -244,13 +244,13 @@ class Map extends Component {
                 markersOpacity: 0
             });
         }
-    }
+    };
 
     handleBack = e => {
         this.setState({
             markersOpacity: 1
         });
-    }
+    };
 
     getMarginLeft() {
         if (this.state.markersOpacity == 0) {
@@ -286,8 +286,6 @@ class Map extends Component {
             let map_height = this.state.imageData.height - visible_height;
             let new_x = Math.max(Math.min(0, position.x), -map_width);
             let new_y = Math.max(Math.min(0, position.y), -map_height);
-            console.log(position.y);
-            console.log('');
             return {x: new_x, y: new_y};
         };
 
@@ -320,7 +318,8 @@ class Map extends Component {
                         <Image
                             image={this.state.image}
                         />
-                        {this.state.imageData.markers.map(
+                        {console.log(this.state)}
+                        {this.state.imageData.marks.map(
                             //handleClick каррируется
                             //туда передается только id, аргумент e попадает при нажатии
                             marker_props => marker(Object.assign(marker_props,
