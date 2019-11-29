@@ -37,7 +37,7 @@ class Map extends Component {
             imageData: {},
             image: {},
             markersOpacity: 1,
-            inform: null, // TODO: обойтись без этой штуки, пользваться лишь marks
+            inform: null, // текущий элемента на информационной панели
             stageScale: 1,
             stageX: 1,
         };
@@ -147,11 +147,12 @@ class Map extends Component {
         });
     };
     
-    handleClick = (id) => {
+    handleClick = (index) => {
+        console.log(index);
         return e => {
             e.evt.preventDefault();
             this.setState({
-                inform: this.state.imageData.inform[id],
+                inform: this.state.imageData.marks[index],
                 markersOpacity: 0
             });
         }
@@ -229,13 +230,12 @@ class Map extends Component {
                         <Image
                             image={this.state.image}
                         />
-                        {console.log(this.state)}
                         {this.state.imageData.marks.map(
-                            //handleClick каррируется
-                            //туда передается только id, аргумент e попадает при нажатии
-                            marker_props => marker(Object.assign(marker_props,
+                            // handleClick каррируется
+                            // туда передается только index, аргумент e попадает при нажатии
+                            (mark_props, index) => marker(Object.assign(mark_props,
                                 {
-                                    handler: this.handleClick,
+                                    handler: this.handleClick(index),
                                     opacity: this.state.markersOpacity
                                 }))
                         )}

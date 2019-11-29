@@ -1,23 +1,17 @@
 import React, {Component} from 'react';
 import './styles.css'
+import * as Constants from "../../../constants/constants";
 
-function renderNode(node) {
-    switch (node.type) {
-        case 'h1':
-            return (
-                <h1>{node.header}</h1>
-            );
-        case 'img':
-            return (
-                <img className={"article-img"} src={node.src} draggable={"false"}/>
-            );
-        case 'paragraph':
-            return (
-              <p>{node.text}</p>
-            );
-        default:
-            return null;
-    }
+
+function renderInfo(mark) {
+    return (
+        <React.Fragment>
+            <h1>{mark.title}</h1>
+            <img className={"article-img"} src={Constants.BACKEND_PREFIX + mark.image} />
+            <p>{mark.content}</p>
+        </React.Fragment>
+
+    );
 }
 
 class InformationPanel extends Component {
@@ -48,7 +42,7 @@ class InformationPanel extends Component {
                     height: this.props.height
                 }
             }>
-                {this.props.source.map(node => renderNode(node))}
+                {renderInfo(this.props.source)}
             </div>
         );
     }
