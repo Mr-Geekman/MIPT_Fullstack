@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from rest_framework import status
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_jwt.settings import api_settings
@@ -16,6 +17,9 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 class LoginView(APIView):
     """Контроллер для входа."""
+
+    parser_classes = [JSONParser]
+
     def post(self, request):
         username = request.data.get('username', '')
         password = request.data.get('password', '')

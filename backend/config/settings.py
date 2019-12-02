@@ -134,11 +134,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # django-cors-headers settings
 # TODO: настроить CORS
-CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_WHITELIST = [
-#     'http://127.0.0.1:5000',
-#     'http://127.0.0.1:3000',
-# ]
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+SESSION_COOKIE_SAMESITE = None
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:8000'
+]
+
+# без понятия зачем, не факт, что что-то делает
+CORS_ALLOW_HEADERS = [
+    'Access-Control-Allow-Headers',
+    'Access-Control-Allow-Credentials',
+]
 
 
 # Rest Framework settings

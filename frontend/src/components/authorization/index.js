@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState, Component } from 'react';
+import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
+import cookie from 'react-cookies'
+
 import './styles.css';
 import * as Constants from '../../constants/constants'
 
@@ -47,35 +49,40 @@ class AuthorizationForm extends Component {
         this.setState({
             [target.name]: target.value
         });
-    }
+    };
 
 
     submitForm = async (e) => {
         e.preventDefault();
-        let data = { 
-            'username': this.state.login,
-            'password': this.state.password
-        };
-        console.log(data);
+        const data = {'username': this.state.login,
+            'password': this.state.password};
         this.setState({
             'password': ''
         });
-        let url = Constants.LOGIN_PREFIX;
-        const response = await fetch(url, {
+        // вдруг их надо было проинициализировать?
+        cookie.save('csrftoken', '', { path: '/' });
+        cookie.save('sessionid', '', { path: '/' });
+        console.log(document.cookie);
+        const response = await fetch(Constants.LOGIN_PREFIX, {
             method: 'POST',
-            body: JSON.stringify(data),
             headers: {
-                'Content-Type': 'application/json'
+                //"Access-Control-Allow-Origin": "*",
+                //"Content-Type": "multipart/form-data",
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
-            credentials: "include"
-        });
-        console.log(response.headers);
+            credentials: 'same-origin',
+            body: JSON.stringify(data),
+        })
+        console.log(response);
+        console.log(document.cookie);
         if (response.status === 200) {
             const tokens = await response.json();
             console.log(tokens);
         }      
-    }
+    };
 
+    // Кажется, здесь не нужны handleChange, все будет в e.target при нажатии
     render() {
         return (
             <main>
@@ -87,12 +94,12 @@ class AuthorizationForm extends Component {
                     <div className={'form-wrapper'}>
                         <Form onSubmit={this.submitForm}>
                             <FormGroup row>
-                                <Label for="user_name" sm={2}>Логин</Label>
+                                <Label for="username" sm={2}>Логин</Label>
                                 <Col sm={10}>
                                     <Input 
                                         type="text" 
                                         name="login"
-                                        id="user_name"
+                                        id="username"
                                         placeholder="Введите логин" 
                                         value={this.state.login}
                                         onChange={this.handleChange}
