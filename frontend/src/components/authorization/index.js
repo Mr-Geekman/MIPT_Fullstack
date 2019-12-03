@@ -67,7 +67,6 @@ class AuthorizationForm extends Component {
             method: 'POST',
             headers: {
                 //"Access-Control-Allow-Origin": "*",
-                //"Content-Type": "multipart/form-data",
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
