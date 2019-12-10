@@ -17,10 +17,14 @@ class Header extends Component {
                                 this.props.onEnterClick('Вы: ' + 'Вася Пупкин');
                             }}
                         >
-                            Войти
+                            <Link to='/authorization'>
+                                <span className='button-text'>Войти</span>
+                            </Link> 
                         </div>
                         <div className={'register button'}>
-                            Зарегистрироваться
+                            <Link to='/registration'>
+                                <span className='button-text'>Зарегистрироваться</span>
+                            </Link>
                         </div>
                     </div>
                 );

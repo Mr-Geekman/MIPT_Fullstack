@@ -5,6 +5,7 @@ import Gallery from "./../components/gallery";
 import PageNotFound from "./../components/pageNotFound"
 import Map from "./../components/map"
 import AuthorizationForm from "../components/authorization";
+import RegistrationForm from "../components/registration"
 
 const MainRouter = () => (
     <Switch>
@@ -12,6 +13,7 @@ const MainRouter = () => (
         <Route exact path='/gallery' component={Gallery}/>
         <Route path="/maps/:name" component={Map}/>
         <Route path="/authorization" component={AuthorizationForm}/>
+        <Route path="/registration" component={RegistrationForm} />
         <Route path='*' component={PageNotFound}/>
     </Switch>
 );

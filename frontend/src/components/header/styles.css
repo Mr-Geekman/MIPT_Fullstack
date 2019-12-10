@@ -88,3 +88,7 @@ header {
     align-items: center;
     cursor: pointer;
 }
+
+.button-text {
+    color: white;
+}

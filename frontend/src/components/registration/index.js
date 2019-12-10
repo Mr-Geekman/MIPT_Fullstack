@@ -6,14 +6,15 @@ import cookie from 'react-cookies'
 import './styles.css';
 import * as Constants from '../../constants/constants'
 
-class AuthorizationForm extends Component {
+class RegistrationForm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             height: 0,
             login: '',
-            password: ''
+            password: '',
+            email: ''
         };
         this.handleLoad = this.handleLoad.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -53,32 +54,7 @@ class AuthorizationForm extends Component {
 
 
     submitForm = async (e) => {
-        e.preventDefault();
-        const data = {'username': this.state.login,
-            'password': this.state.password};
-        this.setState({
-            'password': ''
-        });
-        // вдруг их надо было проинициализировать?
-        cookie.save('csrftoken', '', { path: '/' });
-        cookie.save('sessionid', '', { path: '/' });
-        console.log(document.cookie);
-        const response = await fetch(Constants.LOGIN_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                //"Access-Control-Allow-Origin": "*",
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            credentials: 'same-origin',
-            body: JSON.stringify(data),
-        });
-        console.log(response);
-        console.log(document.cookie);
-        if (response.status === 200) {
-            const tokens = await response.json();
-            console.log(tokens);
-        }      
+        
     };
 
     // Кажется, здесь не нужны handleChange, все будет в e.target при нажатии
@@ -92,7 +68,7 @@ class AuthorizationForm extends Component {
                 >
                     <div className={'form-wrapper'}>
                         <Form onSubmit={this.submitForm}>
-                            <FormGroup col>
+                            <FormGroup>
                                 <Label for="username">Логин</Label>
                                 <Input 
                                     type="text" 
@@ -101,9 +77,21 @@ class AuthorizationForm extends Component {
                                     placeholder="Введите логин" 
                                     value={this.state.login}
                                     onChange={this.handleChange}
+                                    size={'10pt'}
                                 />
                             </FormGroup>
-                            <FormGroup col>
+                            <FormGroup>
+                                <Label for="username">Email</Label>
+                                <Input 
+                                    type="text" 
+                                    name="email"
+                                    id="userEmail"
+                                    placeholder="Введите email" 
+                                    value={this.state.email}
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
                                 <Label for="userPassword">Password</Label>
                                 <Input 
                                     type="password"
@@ -112,7 +100,7 @@ class AuthorizationForm extends Component {
                                     placeholder="Введите пароль" 
                                     value = {this.state.password}
                                     onChange={this.handleChange}
-                                />
+                                />                            
                             </FormGroup>
                             <Button>Войти</Button>
                         </Form>
@@ -123,4 +111,4 @@ class AuthorizationForm extends Component {
     }
 }
 
-export default AuthorizationForm;
+export default RegistrationForm;

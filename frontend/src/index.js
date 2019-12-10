@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import MainRouter from './routes';
-import HandledHeader from "./redux-components/containers/handled_header";
+import HeaderContainer from "./redux-components/containers/headerContainer.js";
 import Footer from "./components/footer";
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
@@ -17,7 +17,7 @@ const render = () =>
         <React.Fragment>
             <BrowserRouter>
                 <Provider store={store}>
-                    <HandledHeader />
+                    <HeaderContainer />
                     <MainRouter/>
                     <Footer/>
                 </Provider>

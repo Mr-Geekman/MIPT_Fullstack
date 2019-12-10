@@ -22,9 +22,9 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-const HandledHeader = connect(
+const HeaderContainer = connect(
     mapStateToProps,
     mapDispatchToProps
 )(Header);
 
-export default HandledHeader;
+export default HeaderContainer;
