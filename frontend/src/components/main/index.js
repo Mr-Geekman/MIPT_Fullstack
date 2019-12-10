@@ -11,7 +11,7 @@ class Main extends Component {
                 <div className="content">
                     <main>
                         <article>
-                            <div className="full_dark_logo">
+                            <div className="full-dark-logo">
                                 Gaze
                             </div>
                             <h2>О проекте</h2>

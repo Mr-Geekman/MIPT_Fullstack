@@ -1,10 +1,10 @@
-import {FOOTER_HEIGHT, HEADER_HEIGHT, USER_NAME} from "../actions/index";
+import {FOOTER_HEIGHT, HEADER_HEIGHT, USER_NAME} from "../actions";
 
 const initialState = {
     user_name: undefined,
     header_height: '50px',
     footer_height: '50px'
-}
+};
 
 function reducer(state = initialState, action) {
     switch (action.type) {

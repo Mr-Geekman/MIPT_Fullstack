@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
-import NotFoundPicture from "../../static/img/404.jpeg"
 import './styles.css';
 
 class PageNotFound extends Component {
@@ -21,7 +20,7 @@ class PageNotFound extends Component {
         this.setState({
             height: height
         });
-    }
+    };
 
 
     componentDidMount() {
@@ -29,7 +28,7 @@ class PageNotFound extends Component {
             {
                 ready: true
             }
-        )
+        );
         window.addEventListener('load', this.handleLoad);
     }
 

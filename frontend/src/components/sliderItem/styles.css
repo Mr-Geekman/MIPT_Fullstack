@@ -1,4 +1,4 @@
-.sliderItem {
+.slider-item {
     scroll-snap-align: start;
     flex-shrink: 0;
     margin-right: 50px;
@@ -17,7 +17,7 @@
     cursor: pointer;
 }
 
-.sliderItem > .shadow {
+.slider-item > .shadow {
     background-color: rgba(0, 0, 0, 0.8);
     width: 100%;
     transition-duration: 2s;

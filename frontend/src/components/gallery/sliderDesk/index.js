@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import sliderWrapper from "./sliderWrapper";
+import slideWrapper from "./slideWrapper/index";
 import './styles.css'
 import * as Constants from "../../../constants/constants";
 
@@ -15,7 +15,7 @@ class SliderDesk extends Component {
 
     componentDidMount() {
         const request = async() => {
-            const data = await fetch(Constants.MAPS_PREFIX)
+            const data = await fetch(`${Constants.MAPS_PREFIX}/`)
                 .then(response => response.json())
                 .catch(err => console.log('Send failed', err));
             if(data) {
@@ -28,7 +28,7 @@ class SliderDesk extends Component {
     render() {
         return (
             <div className="maps-table">
-                {this.state.items.map(task => sliderWrapper(task))}
+                {this.state.items.map(task => slideWrapper(task))}
             </div>
         );
     }

@@ -26,7 +26,7 @@ class InformationPanel extends Component {
         }
         if (!this.props.source) {
             return (
-                <div className={"informationPanel"} style={
+                <div className={"information-panel"} style={
                     {
                         "margin-left": margin_left,
                         height: this.props.height
@@ -36,7 +36,7 @@ class InformationPanel extends Component {
             );
         }
         return (
-            <div className={"informationPanel"} style={
+            <div className={"information-panel"} style={
                 {
                     "margin-left": margin_left,
                     height: this.props.height

@@ -63,7 +63,7 @@ class AuthorizationForm extends Component {
         cookie.save('csrftoken', '', { path: '/' });
         cookie.save('sessionid', '', { path: '/' });
         console.log(document.cookie);
-        const response = await fetch(Constants.LOGIN_PREFIX, {
+        const response = await fetch(Constants.LOGIN_ENDPOINT, {
             method: 'POST',
             headers: {
                 //"Access-Control-Allow-Origin": "*",
@@ -72,7 +72,7 @@ class AuthorizationForm extends Component {
             },
             credentials: 'same-origin',
             body: JSON.stringify(data),
-        })
+        });
         console.log(response);
         console.log(document.cookie);
         if (response.status === 200) {

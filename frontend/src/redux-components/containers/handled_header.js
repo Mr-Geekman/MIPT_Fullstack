@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setUserName, setHeaderHeight } from "../actions/index";
+import { setUserName, setHeaderHeight } from "../actions";
 import Header from "../../components/header";
 
 const mapStateToProps = (state) => {

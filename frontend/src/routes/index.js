@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router';
 import Main from "./../components/main";
 import Gallery from "./../components/gallery";
-import PageNotFound from "./../components/page_not_found"
+import PageNotFound from "./../components/pageNotFound"
 import Map from "./../components/map"
 import AuthorizationForm from "../components/authorization";
 

@@ -24,7 +24,7 @@ class BootstrapSlider extends Component {
 
     componentDidMount() {
         const request = async() => {
-            const data = await fetch(Constants.MAPS_PREFIX)
+            const data = await fetch(`${Constants.MAPS_PREFIX}/`)
                 .then(response => response.json())
                 .catch(err => console.log('Send failed', err));
             if(data) {
@@ -91,7 +91,7 @@ class BootstrapSlider extends Component {
             </div>
         );
     }
-};
+}
 
 
 export default BootstrapSlider;

@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import { Stage, Layer, Image } from 'react-konva';
 
 import * as Constants from "../../constants/constants";
-import PageNotFound from "../../components/page_not_found";
+import PageNotFound from "../../components/pageNotFound";
 import './styles.scss';
 import marker from "./marker"
 import InformationPanel from "./informationPanel";
 
 
-const MapLoader = ({height}) => {
+const mapLoader = ({height}) => {
     let visible_width = window.innerWidth;
     return (
         <div className={'map-loader-container'} style={{width: visible_width, height:height}}>
@@ -67,7 +67,7 @@ class Map extends Component {
     componentDidMount() {
         // TODO: Настроить нормальную работу с CORS
         const request = async() => {
-            let url = Constants.MAPS_PREFIX + this.state.name + '/';
+            let url = `${Constants.MAPS_PREFIX}/${this.state.name}/`;
 
             const response = await fetch(url)
                 .catch(err => console.log('Send failed', err));
@@ -175,10 +175,10 @@ class Map extends Component {
     render() {
         if(!this.state.loaded) {
             return (
-                <MapLoader
+                <mapLoader
                     height={this.state.height}
                 >
-                </MapLoader>
+                </mapLoader>
             )
         }
         if(!this.state.found || !this.state.imageData) {
