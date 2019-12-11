@@ -1,8 +1,37 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import './styles.css';
+import * as Constants from "../../constants/constants";
 
 class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            logged_in: localStorage.getItem('token') ? true : false,
+            username: 'Вася Пупкин',
+        };
+    }
+
+    componentDidMount() {
+        if (this.state.logged_in) {
+            fetch(Constants.CURRENT_USER_ENDPOINT, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+                .then(response => {
+                    console.log('Header user response in fetch', response);
+                    const res = response.json();
+                    console.log('Header user jsoned', res);
+                    return res;
+                })
+                .then(data => {
+                    console.log('Header user data', data);
+                    this.setState({username: data['username']})
+                });
+            }
+    }
 
     render() {
 
@@ -14,7 +43,7 @@ class Header extends Component {
                             className={'enter button'}
                             onClick = {e => {
                                 e.preventDefault();
-                                this.props.onEnterClick('Вы: ' + 'Вася Пупкин');
+                                this.props.onEnterClick(`Вы: ${this.state.username}`);
                             }}
                         >
                             <Link to='/authorization'>

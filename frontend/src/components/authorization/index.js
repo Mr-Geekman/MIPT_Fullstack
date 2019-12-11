@@ -52,33 +52,32 @@ class AuthorizationForm extends Component {
     };
 
 
-    submitForm = async (e) => {
+    submitForm = (e) => {
         e.preventDefault();
         const data = {'username': this.state.login,
             'password': this.state.password};
         this.setState({
             'password': ''
         });
-        // вдруг их надо было проинициализировать?
-        cookie.save('csrftoken', '', { path: '/' });
-        cookie.save('sessionid', '', { path: '/' });
-        console.log(document.cookie);
-        const response = await fetch(Constants.LOGIN_ENDPOINT, {
+        fetch(Constants.LOGIN_ENDPOINT, {
             method: 'POST',
             headers: {
-                //"Access-Control-Allow-Origin": "*",
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            credentials: 'same-origin',
             body: JSON.stringify(data),
-        });
-        console.log(response);
-        console.log(document.cookie);
-        if (response.status === 200) {
-            const tokens = await response.json();
-            console.log(tokens);
-        }      
+        })
+            .then(response => {
+                console.log('Response in fetch', response);
+                console.log(document.cookie);
+                const res = response.json();
+                console.log('Jsoned', res);
+                return res;
+            })
+            .then(data => {
+                console.log('Data', data);
+                localStorage.setItem('token', data['token']);
+                // cookie.save(data);
+            });
     };
 
     // Кажется, здесь не нужны handleChange, все будет в e.target при нажатии
