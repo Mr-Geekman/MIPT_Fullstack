@@ -38,7 +38,7 @@ class Header extends Component {
         let userDiv = null;
         if (!this.props.user_name) {
                 userDiv = (
-                    <div className={'user_div'}>
+                    <div className={'user-div'}>
                         <div
                             className={'enter button'}
                             onClick = {e => {
@@ -60,7 +60,7 @@ class Header extends Component {
         }
         else {
             userDiv = (
-              <div className={'user_div'}>
+              <div className={'user-div'}>
                   <span>{this.props.user_name}</span>
                   <div
                       className={'escape button'}

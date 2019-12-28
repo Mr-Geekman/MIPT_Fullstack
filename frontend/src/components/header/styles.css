@@ -67,7 +67,7 @@ header {
     margin-left: 9pt;
 }
 
-.user_div {
+.user-div {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -75,7 +75,7 @@ header {
     width: 300px;
 }
 
-.user_div > .button {
+.user-div > .button {
     height: 80%;
     border-radius: 2px;
     border-width: 5px;

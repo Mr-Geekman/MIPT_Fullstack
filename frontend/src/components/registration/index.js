@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
-import cookie from 'react-cookies'
+import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
 
 import './styles.css';
 import * as Constants from '../../constants/constants'

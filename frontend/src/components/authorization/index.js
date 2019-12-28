@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
-import cookie from 'react-cookies'
+import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
 
 import './styles.css';
 import * as Constants from '../../constants/constants'
@@ -59,7 +58,7 @@ class AuthorizationForm extends Component {
         this.setState({
             'password': ''
         });
-        fetch(Constants.LOGIN_ENDPOINT, {
+        fetch(Constants.TOKEN_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +75,6 @@ class AuthorizationForm extends Component {
             .then(data => {
                 console.log('Data', data);
                 localStorage.setItem('token', data['token']);
-                // cookie.save(data);
             });
     };
 
