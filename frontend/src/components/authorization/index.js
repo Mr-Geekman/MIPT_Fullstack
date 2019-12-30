@@ -60,6 +60,7 @@ class AuthorizationForm extends Component {
         this.setState({
             'password': ''
         });
+        // TODO: сделать запоминание состояния, научиться обрабатывать ошибки 400
         fetch(Constants.LOGIN_ENDPOINT, {
             method: 'POST',
             headers: {

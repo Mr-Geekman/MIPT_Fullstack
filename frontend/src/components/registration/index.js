@@ -62,6 +62,7 @@ class RegistrationForm extends Component {
         this.setState({
             'password': ''
         });
+        // TODO: сделать запоминание состояния, научиться обрабатывать ошибки 400
         fetch(Constants.REGISTER_ENDPOINT, {
             method: 'POST',
             headers: {

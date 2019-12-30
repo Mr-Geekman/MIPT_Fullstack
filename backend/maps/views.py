@@ -6,7 +6,6 @@ from .models import Map
 from .serializers import MapSerializer
 
 
-# TODO: заменить на GenericView -- ListApiView
 # Можно упростить : https://www.django-rest-framework.org/tutorial/3-class-based-views/
 # ListApiView
 class ListMapsView(APIView):
@@ -17,7 +16,6 @@ class ListMapsView(APIView):
         return Response(serializer.data)
 
 
-# TODO: заменить на GenericView -- RetrieveApiView
 class MapView(APIView):
     """Контроллер для работы с одной картой."""
     def get(self, request, slug):
