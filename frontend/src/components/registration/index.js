@@ -53,7 +53,32 @@ class RegistrationForm extends Component {
 
 
     submitForm = async (e) => {
-        
+        e.preventDefault();
+        const data = {
+            'username': this.state.login,
+            'email': this.state.email,
+            'password': this.state.password
+        };
+        this.setState({
+            'password': ''
+        });
+        fetch(Constants.REGISTER_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                console.log('Response in fetch', response);
+                const res = response.json();
+                console.log('Jsoned', res);
+                return res;
+            })
+            .then(data => {
+                console.log('Data', data);
+                localStorage.setItem('token', data['token']);
+            });
     };
 
     // Кажется, здесь не нужны handleChange, все будет в e.target при нажатии
@@ -80,7 +105,7 @@ class RegistrationForm extends Component {
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Label for="username">Email</Label>
+                                <Label for="userEmail">Email</Label>
                                 <Input 
                                     type="text" 
                                     name="email"

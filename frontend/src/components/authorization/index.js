@@ -53,12 +53,14 @@ class AuthorizationForm extends Component {
 
     submitForm = (e) => {
         e.preventDefault();
-        const data = {'username': this.state.login,
-            'password': this.state.password};
+        const data = {
+            'username': this.state.login,
+            'password': this.state.password
+        };
         this.setState({
             'password': ''
         });
-        fetch(Constants.TOKEN_ENDPOINT, {
+        fetch(Constants.LOGIN_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,7 +69,6 @@ class AuthorizationForm extends Component {
         })
             .then(response => {
                 console.log('Response in fetch', response);
-                console.log(document.cookie);
                 const res = response.json();
                 console.log('Jsoned', res);
                 return res;
