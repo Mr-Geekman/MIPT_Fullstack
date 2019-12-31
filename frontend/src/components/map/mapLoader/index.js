@@ -2,10 +2,6 @@ import React from 'react';
 import './styles.scss';
 
 
-// TODO: понять, почему нельзя назвать mapLoader
-// это более соответствует принятому стилю, но пока такое наименование не удается
-// вместо подстановки того, что внутри подставляется в html так, будто mapLoader -- это тэг html
-// Пример правильной работы: sliderItem
 const MapLoader = ({height}) => (
         <div className={'map-loader-container'} style={{width: window.innerWidth, height:height}}>
             <div className="loading-text">

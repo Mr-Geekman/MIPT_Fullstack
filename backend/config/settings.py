@@ -130,7 +130,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # django-cors-headers settings
-# TODO: настроить CORS
+# TODO (Работа для бэкендера): убрать лишнее после того, как все будет сделано
 # CORS_ORIGIN_ALLOW_ALL = True
 # CORS_ALLOW_CREDENTIALS = True
 # SESSION_COOKIE_SAMESITE = None
