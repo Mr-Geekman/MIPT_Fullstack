@@ -1,20 +1,69 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import './styles.css';
+import * as Constants from "../../constants/constants";
+
+
+// TODO: здесь надо уметь выводить актуальный username
+// Стоит не забывать про наличие localStorage, дело в том,
+// что пользователь может повторно зайти на сайт. В его redux-state ничего не будет, но в
+// localStorage может храниться токен, который можно использовать для входа
+// Надо попробовать войти, используя эти данные.
+
+// P.S. на самом деле токен может протухнуть (кажется, ошибка 401 будет), и ничего не получится, надо будет получать новый
+// Как это работает: в настройках есть пункт JWT_EXPIRATION_DELTA, который говорит сколько проживет текущий токен,
+// Но как только истекает это время не обязательно заново проводить процедуру входа при помощи логина и пароля,
+// достаточно лишь обновить токен при помощи refresh_token - см. urls.py (кажется, надо послать текущий токен, и получишь новый).
+// Но такое обновление тоже нельзя делать вечно. Есть ограничение в виде параметра
+// JWT_REFRESH_EXPIRATION_DELTA, который говорит, как долго можно обновлять токен
+// с момента последнего входа при помощи логина и пароля.
+// Всю эту сложную логику можно попробовать реализовать прямо в компоненте header.
+// Или можно просто перед каждым запросом, требующим авторазации (пока это лишь получение текущего пользователя)
+// делать refresh токена.
+
 
 class Header extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            logged_in: localStorage.getItem('token') ? true : false,
+            username: 'Вася Пупкин',
+        };
+    }
+
+    // TODO: после отладки убрать лишние console.log
+    componentDidMount() {
+        if (this.state.logged_in) {
+            fetch(Constants.CURRENT_USER_ENDPOINT, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+                .then(response => {
+                    console.log('Header user response in fetch', response);
+                    const res = response.json();
+                    console.log('Header user jsoned', res);
+                    return res;
+                })
+                .then(data => {
+                    console.log('Header user data', data);
+                    this.setState({username: data['username']})
+                });
+            }
+    }
 
     render() {
 
         let userDiv = null;
         if (!this.props.user_name) {
                 userDiv = (
-                    <div className={'user_div'}>
+                    <div className={'user-div'}>
                         <div
                             className={'enter button'}
                             onClick = {e => {
                                 e.preventDefault();
-                                this.props.onEnterClick('Вы: ' + 'Вася Пупкин');
+                                this.props.onEnterClick(`Вы: ${this.state.username}`);
                             }}
                         >
                             <Link to='/authorization'>
@@ -31,7 +80,7 @@ class Header extends Component {
         }
         else {
             userDiv = (
-              <div className={'user_div'}>
+              <div className={'user-div'}>
                   <span>{this.props.user_name}</span>
                   <div
                       className={'escape button'}

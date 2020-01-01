@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
-import cookie from 'react-cookies'
+import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
 
 import './styles.css';
 import * as Constants from '../../constants/constants'
@@ -54,7 +53,40 @@ class RegistrationForm extends Component {
 
 
     submitForm = async (e) => {
-        
+        e.preventDefault();
+        const data = {
+            'username': this.state.login,
+            'email': this.state.email,
+            'password': this.state.password
+        };
+        this.setState({
+            'password': ''
+        });
+        // TODO: сделать запоминание состояния при помощи redux
+        // Нужно запомнить в состояние всю информацию, которая приходит с запросом (в т.ч. пустой профиль)
+        // После запоминания надо сделать так, чтобы username выводился в верхней панели
+        // TODO: научиться обрабатывать ошибки 400
+        // Воспроизвести можно при помощи создания пользователя с уже занятым username
+        // Для того, чтобы посмотреть, какие пользователи существуют и удаления их
+        // можно воспользовать админкой, которая доступна по адресу localhost:8000/admin
+        // TODO: после отладки убрать console.log
+        fetch(Constants.REGISTER_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                console.log('Response in fetch', response);
+                const res = response.json();
+                console.log('Jsoned', res);
+                return res;
+            })
+            .then(data => {
+                console.log('Data', data);
+                localStorage.setItem('token', data['token']);
+            });
     };
 
     // Кажется, здесь не нужны handleChange, все будет в e.target при нажатии
@@ -81,7 +113,7 @@ class RegistrationForm extends Component {
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Label for="username">Email</Label>
+                                <Label for="userEmail">Email</Label>
                                 <Input 
                                     type="text" 
                                     name="email"

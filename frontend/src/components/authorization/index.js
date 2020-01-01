@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
-import cookie from 'react-cookies'
+import { Button, Form, FormGroup, Label, Input} from 'reactstrap';
 
 import './styles.css';
 import * as Constants from '../../constants/constants'
@@ -52,33 +51,39 @@ class AuthorizationForm extends Component {
     };
 
 
-    submitForm = async (e) => {
+    submitForm = (e) => {
         e.preventDefault();
-        const data = {'username': this.state.login,
-            'password': this.state.password};
+        const data = {
+            'username': this.state.login,
+            'password': this.state.password
+        };
         this.setState({
             'password': ''
         });
-        // вдруг их надо было проинициализировать?
-        cookie.save('csrftoken', '', { path: '/' });
-        cookie.save('sessionid', '', { path: '/' });
-        console.log(document.cookie);
-        const response = await fetch(Constants.LOGIN_ENDPOINT, {
+        // TODO: сделать запоминание состояния при помощи redux
+        // Нужно запомнить в состояние всю информацию, которая приходит с запросом (в т.ч. профиль)
+        // После запоминания надо сделать так, чтобы username выводился в верхней панели
+        // TODO: добавить выход из аккаунта
+        // TODO: научиться обрабатывать ошибки 400
+        // Здесь это сложно воспроизвести, лучше тестировать реализацию на регистрации - см. там
+        // TODO: после отладки убрать console.log
+        fetch(Constants.LOGIN_ENDPOINT, {
             method: 'POST',
             headers: {
-                //"Access-Control-Allow-Origin": "*",
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            credentials: 'same-origin',
             body: JSON.stringify(data),
-        });
-        console.log(response);
-        console.log(document.cookie);
-        if (response.status === 200) {
-            const tokens = await response.json();
-            console.log(tokens);
-        }      
+        })
+            .then(response => {
+                console.log('Response in fetch', response);
+                const res = response.json();
+                console.log('Jsoned', res);
+                return res;
+            })
+            .then(data => {
+                console.log('Data', data);
+                localStorage.setItem('token', data['token']);
+            });
     };
 
     // Кажется, здесь не нужны handleChange, все будет в e.target при нажатии

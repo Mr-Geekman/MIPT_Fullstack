@@ -3,28 +3,11 @@ import { Stage, Layer, Image } from 'react-konva';
 
 import * as Constants from "../../constants/constants";
 import PageNotFound from "../../components/pageNotFound";
-import './styles.scss';
+
 import marker from "./marker"
 import InformationPanel from "./informationPanel";
+import MapLoader from "./mapLoader";
 
-
-const mapLoader = ({height}) => {
-    let visible_width = window.innerWidth;
-    return (
-        <div className={'map-loader-container'} style={{width: visible_width, height:height}}>
-            <div className="loading-text">
-                <span className="loading-text-words">З</span>
-                <span className="loading-text-words">А</span>
-                <span className="loading-text-words">Г</span>
-                <span className="loading-text-words">Р</span>
-                <span className="loading-text-words">У</span>
-                <span className="loading-text-words">З</span>
-                <span className="loading-text-words">К</span>
-                <span className="loading-text-words">А</span>
-            </div>
-        </div>
-    )
-};
 
 class Map extends Component {
     constructor(props) {
@@ -65,7 +48,7 @@ class Map extends Component {
     };
 
     componentDidMount() {
-        // TODO: Настроить нормальную работу с CORS
+        // TODO: Переписать через fetch .then. except вместо async, await
         const request = async() => {
             let url = `${Constants.MAPS_PREFIX}/${this.state.name}/`;
 
@@ -102,7 +85,6 @@ class Map extends Component {
             }
         };
         request();
-
         if (document.getElementsByTagName('footer')) {
             document.getElementsByTagName('footer')[0].style.display = 'none';
         }
@@ -175,10 +157,10 @@ class Map extends Component {
     render() {
         if(!this.state.loaded) {
             return (
-                <mapLoader
+                <MapLoader
                     height={this.state.height}
                 >
-                </mapLoader>
+                </MapLoader>
             )
         }
         if(!this.state.found || !this.state.imageData) {
