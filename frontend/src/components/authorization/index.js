@@ -91,13 +91,10 @@ class AuthorizationForm extends Component {
             .then(response => {
                 console.log('Response in fetch', response);
                 const res = response.json();
-                if (response.status === 200) {
+                if (response.ok === true) {
                     return res;
                 }
-                if (response.status === 400) {
-                    throw new Error('Неверное имя пользователя или пароль');
-                }
-                throw new Error('Статус ошибки ' + response.status)
+                throw new Error(response.status)
             })
             .then(data => {
                 console.log('Data', data);
@@ -105,8 +102,16 @@ class AuthorizationForm extends Component {
                 this.props.enter(data.user);
             })
             .catch(error => {
+                let status = error['message'];
+                let errorText = '';
+                if (status === '400') {
+                    errorText = 'Неверный логин или пароль';
+                }
+                else {
+                    errorText = 'Ошибка, но мы уже побежали ее исправлять';
+                }
                 this.setState({
-                    error: error['message']
+                    error: errorText
                 });
             });
     };

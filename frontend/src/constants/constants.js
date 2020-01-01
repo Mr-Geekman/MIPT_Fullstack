@@ -6,3 +6,4 @@ export const AUTH_PREFIX = `${API_PREFIX}/auth`;
 export const LOGIN_ENDPOINT = `${AUTH_PREFIX}/token/`;
 export const REGISTER_ENDPOINT = `${AUTH_PREFIX}/register/`;
 export const CURRENT_USER_ENDPOINT = `${AUTH_PREFIX}/current_user/`;
+export const REFRESH_USER_ENDPOINT = `${AUTH_PREFIX}/refresh`;

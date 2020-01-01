@@ -78,10 +78,13 @@ class RegistrationForm extends Component {
             });
             return;
         } 
+        if (!data.email) {
+            this.setState({
+                error: 'Введите email!'
+            });
+            return;
+        }
 
-        // TODO: сделать запоминание состояния при помощи redux
-        // Нужно запомнить в состояние всю информацию, которая приходит с запросом (в т.ч. пустой профиль)
-        // После запоминания надо сделать так, чтобы username выводился в верхней панели
         // TODO: научиться обрабатывать ошибки 400
         // Воспроизвести можно при помощи создания пользователя с уже занятым username
         // Для того, чтобы посмотреть, какие пользователи существуют и удаления их
@@ -97,13 +100,10 @@ class RegistrationForm extends Component {
             .then(response => {
                 console.log('Response in fetch', response);
                 const res = response.json();
-                if (response.status === 200) {
+                if (response.ok === true) {
                     return res;
                 }
-                if (response.status === 400) {
-                    throw new Error('Неверное имя пользователя или пароль');
-                }
-                throw new Error('Статус ошибки ' + response.status)
+                throw new Error(response.status)
             })
             .then(data => {
                 console.log('Data', data);
@@ -111,14 +111,29 @@ class RegistrationForm extends Component {
                 this.props.enter(data.user);
             })
             .catch(error => {
+                let status = error['message'];
+                let errorText = '';
+                if (status === '400') {
+                    errorText = 'Логин занят!';
+                }
+                else {
+                    errorText = 'Ошибка, но мы уже побежали ее исправлять';
+                }
                 this.setState({
-                    error: error['message']
+                    error: errorText
                 });
             });
     };
 
     // Кажется, здесь не нужны handleChange, все будет в e.target при нажатии
     render() {
+        let errorText = '';
+        if (this.state.error) {
+            errorText = (
+                <Label style={{color: 'red'}}>{this.state.error}</Label>
+            );
+        }
+
         return (
             <main>
                 <div className={'content-auth'}
@@ -127,7 +142,10 @@ class RegistrationForm extends Component {
                     }}
                 >
                     <div className={'form-wrapper'}>
-                        <Form onSubmit={this.submitForm}>
+                        <Form onSubmit={this.submitForm} style={{
+                            'font-size': '10pt'
+                        }} >
+                            {errorText}
                             <FormGroup>
                                 <Label for="username">Логин</Label>
                                 <Input 
@@ -143,7 +161,7 @@ class RegistrationForm extends Component {
                             <FormGroup>
                                 <Label for="userEmail">Email</Label>
                                 <Input 
-                                    type="text" 
+                                    type="email" 
                                     name="email"
                                     id="userEmail"
                                     placeholder="Введите email" 
@@ -162,7 +180,7 @@ class RegistrationForm extends Component {
                                     onChange={this.handleChange}
                                 />                            
                             </FormGroup>
-                            <Button>Войти</Button>
+                            <Button>Зарегистрироваться</Button>
                         </Form>
                     </div>
                 </div>

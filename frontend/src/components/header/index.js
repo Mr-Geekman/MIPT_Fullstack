@@ -44,12 +44,28 @@ class Header extends Component {
                     console.log('Header user response in fetch', response);
                     const res = response.json();
                     console.log('Header user jsoned', res);
+                    if (!response.ok) {
+                        throw new Error(String(response.status));
+                    }
                     return res;
                 })
                 .then(data => {
                     console.log('Header user data', data);
                     this.setState({username: data['username']})
                     this.props.enter(data);
+                }).
+                catch(error => {
+                    if (error['message'] === '401') {
+                        fetch(Constants.REFRESH_USER_ENDPOINT, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                            }
+                        })
+                            .then(response => {
+                                console.log(response)
+                            })
+                    }
                 });
             }
     }
