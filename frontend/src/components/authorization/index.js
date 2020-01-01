@@ -91,12 +91,23 @@ class AuthorizationForm extends Component {
             .then(response => {
                 console.log('Response in fetch', response);
                 const res = response.json();
-                return res;
+                if (response.status === 200) {
+                    return res;
+                }
+                if (response.status === 400) {
+                    throw new Error('Неверное имя пользователя или пароль');
+                }
+                throw new Error('Статус ошибки ' + response.status)
             })
             .then(data => {
                 console.log('Data', data);
                 localStorage.setItem('token', data['token']);
                 this.props.enter(data.user);
+            })
+            .catch(error => {
+                this.setState({
+                    error: error['message']
+                });
             });
     };
 
@@ -116,7 +127,7 @@ class AuthorizationForm extends Component {
                     }}
                 >
                     <div className={'form-wrapper'}>
-                        <Form onSubmit={this.submitForm}>
+                        <Form onSubmit={this.submitForm} style={{'font-size': '10pt'}}>
                             {errorText}
                             <FormGroup col>
                                 <Label for="username">Логин</Label>

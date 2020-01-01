@@ -27,7 +27,7 @@ class Header extends Component {
         super(props);
         this.state = {
             logged_in: localStorage.getItem('token') ? true : false,
-            username: 'Вася Пупкин',
+            username: '',
         };
     }
 

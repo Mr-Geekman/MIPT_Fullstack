@@ -13,7 +13,8 @@ class RegistrationForm extends Component {
             height: 0,
             login: '',
             password: '',
-            email: ''
+            email: '',
+            error: ''
         };
         this.handleLoad = this.handleLoad.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -59,9 +60,25 @@ class RegistrationForm extends Component {
             'email': this.state.email,
             'password': this.state.password
         };
+        
         this.setState({
-            'password': ''
+            'password': '',
+            'error': ''
         });
+
+        if (!data.username) {
+            this.setState({
+                error: 'Введите имя пользователя!'
+            });
+            return;
+        }
+        if (!data.password) {
+            this.setState({
+                error: 'Введите пароль!'
+            });
+            return;
+        } 
+
         // TODO: сделать запоминание состояния при помощи redux
         // Нужно запомнить в состояние всю информацию, которая приходит с запросом (в т.ч. пустой профиль)
         // После запоминания надо сделать так, чтобы username выводился в верхней панели
@@ -80,13 +97,23 @@ class RegistrationForm extends Component {
             .then(response => {
                 console.log('Response in fetch', response);
                 const res = response.json();
-                console.log('Jsoned', res);
-                return res;
+                if (response.status === 200) {
+                    return res;
+                }
+                if (response.status === 400) {
+                    throw new Error('Неверное имя пользователя или пароль');
+                }
+                throw new Error('Статус ошибки ' + response.status)
             })
             .then(data => {
                 console.log('Data', data);
                 localStorage.setItem('token', data['token']);
                 this.props.enter(data.user);
+            })
+            .catch(error => {
+                this.setState({
+                    error: error['message']
+                });
             });
     };
 
