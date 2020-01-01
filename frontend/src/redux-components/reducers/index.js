@@ -1,19 +1,17 @@
-import {FOOTER_HEIGHT, HEADER_HEIGHT, USER_NAME} from "../actions";
+import { USER_DATA } from "../actions";
 
 const initialState = {
-    user_name: undefined,
-    header_height: '50px',
-    footer_height: '50px'
+    user_data: {
+        user_name: undefined,
+        user_email: undefined,
+        user_profile: undefined
+    },
 };
 
 function reducer(state = initialState, action) {
     switch (action.type) {
-        case USER_NAME:
-            return Object.assign({}, state, {user_name: action.user_name});
-        case HEADER_HEIGHT:
-            return Object.assign({}, state, {header_height: action.height});
-        case FOOTER_HEIGHT:
-            return Object.assign({}, state, {footer_height: action.height});
+        case USER_DATA:
+            return Object.assign({}, state, {user_data: action.user_data});
         default:
             return state;
     }

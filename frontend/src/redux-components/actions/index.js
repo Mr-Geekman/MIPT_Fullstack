@@ -1,24 +1,12 @@
-export const USER_NAME = 'user_name';
-export const HEADER_HEIGHT = 'header_height';
-export const FOOTER_HEIGHT = 'footer_height';
+export const USER_DATA = 'user_data'; 
 
-export function setUserName(user_name) {
+export function setUserData(user_data) {
     return {
-        type: USER_NAME,
-        user_name: user_name
-    }
-}
-
-export function setHeaderHeight(height) {
-    return {
-        type: HEADER_HEIGHT,
-        height: height
-    }
-}
-
-export function setFooterHeight(height) {
-    return {
-        type: FOOTER_HEIGHT,
-        height: height
+        type: USER_DATA,
+        user_data: {
+            user_name: user_data? user_data.username : undefined,
+            user_email: user_data? user_data.email : undefined,
+            user_profile: user_data? user_data.profile : undefined
+        }
     }
 }

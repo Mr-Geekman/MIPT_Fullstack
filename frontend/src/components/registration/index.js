@@ -86,6 +86,7 @@ class RegistrationForm extends Component {
             .then(data => {
                 console.log('Data', data);
                 localStorage.setItem('token', data['token']);
+                this.props.enter(data.user);
             });
     };
 

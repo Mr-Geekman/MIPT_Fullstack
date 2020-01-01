@@ -49,6 +49,7 @@ class Header extends Component {
                 .then(data => {
                     console.log('Header user data', data);
                     this.setState({username: data['username']})
+                    this.props.enter(data);
                 });
             }
     }
@@ -61,10 +62,6 @@ class Header extends Component {
                     <div className={'user-div'}>
                         <div
                             className={'enter button'}
-                            onClick = {e => {
-                                e.preventDefault();
-                                this.props.onEnterClick(`Вы: ${this.state.username}`);
-                            }}
                         >
                             <Link to='/authorization'>
                                 <span className='button-text'>Войти</span>
@@ -81,7 +78,7 @@ class Header extends Component {
         else {
             userDiv = (
               <div className={'user-div'}>
-                  <span>{this.props.user_name}</span>
+                  <span>Вы: {this.props.user_name}</span>
                   <div
                       className={'escape button'}
                       onClick={e => {

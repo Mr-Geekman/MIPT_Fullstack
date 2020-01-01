@@ -1,23 +1,21 @@
 import { connect } from 'react-redux';
-import { setUserName, setHeaderHeight } from "../actions";
+import { setUserData } from "../actions";
 import Header from "../../components/header";
 
 const mapStateToProps = (state) => {
     return {
-        user_name: state.user_name
+        user_name: state.user_data.user_name
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onEnterClick: (user_name) => {
-            dispatch(setUserName(user_name))
+        enter: (user_data) => {
+            dispatch(setUserData(user_data));
         },
         onEscapeClick: () => {
-            dispatch(setUserName(undefined))
-        },
-        sendHeight: (height) => {
-            dispatch(setHeaderHeight(height))
+            localStorage.removeItem('token');
+            dispatch(setUserData(undefined));
         }
     };
 };
