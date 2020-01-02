@@ -44,12 +44,12 @@ class Header extends Component {
                 })
                 .then(data => {
                     console.log('Header user data', data);
-                    this.setState({username: data['username']})
+                    this.setState({username: data['username']});
                     this.props.enter(data);
                 }).
                 catch(error => {
                     if (error['message'] === '401') {
-                        fetch(Constants.REFRESH_USER_ENDPOINT, {
+                        fetch(Constants.REFRESH_ENDPOINT, {
                             method: 'POST',
                             headers: {
                                 'Authorization': `Bearer ${localStorage.getItem('token')}` 

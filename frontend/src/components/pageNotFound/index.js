@@ -13,6 +13,7 @@ class PageNotFound extends Component {
         this.handleLoad = this.handleLoad.bind(this);
     }
 
+    // TODO: не срабатывает при загрузке в firefox - как следствие, не показывается изображение
     handleLoad = (e) => {
         let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -
             document.getElementsByTagName('footer')[0].clientHeight;
@@ -22,29 +23,10 @@ class PageNotFound extends Component {
         });
     };
 
-
     componentDidMount() {
-        this.setState(
-            {
-                ready: true
-            }
-        );
+        this.setState({ready: true});
         window.addEventListener('load', this.handleLoad);
     }
-
-    // render() {
-    //     return (
-    //         <div className="content">
-    //             <main>
-    //                 <article>
-    //                     <h2>Похоже, что вы забрели не туда, такой страницы не существует</h2>
-    //                     <img className={"not-found-picture"} src={NotFoundPicture} alt="Bosch Hell"/>
-    //                     <p className={"tip-to-main"}>Советуем вам вернуться обратно на <Link to="/">главную страницу</Link></p>
-    //                 </article>
-    //             </main>
-    //         </div>
-    //     );
-    // }
 
     render() {
         if (!this.state.ready) {

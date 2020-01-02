@@ -23,15 +23,12 @@ class BootstrapSlider extends Component {
     };
 
     componentDidMount() {
-        const request = async() => {
-            const data = await fetch(`${Constants.MAPS_PREFIX}/`)
-                .then(response => response.json())
-                .catch(err => console.log('Send failed', err));
-            if(data) {
-                this.setState({ items: data });
-            }
-        };
-        request();
+        fetch(`${Constants.MAPS_PREFIX}/`)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({items: data})
+            })
+            .catch(err => console.log('Send failed', err));
     }
 
     next = () => {

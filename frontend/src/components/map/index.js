@@ -48,43 +48,36 @@ class Map extends Component {
     };
 
     componentDidMount() {
-        // TODO: Переписать через fetch .then. except вместо async, await
-        const request = async() => {
-            let url = `${Constants.MAPS_PREFIX}/${this.state.name}/`;
+        let url = `${Constants.MAPS_PREFIX}/${this.state.name}/`;
 
-            const response = await fetch(url)
-                .catch(err => console.log('Send failed', err));
+        fetch(url)
+            .then(response => {
+                if(response.status === 404) {
+                    this.setState({found: false, loaded: true});
+                } else if(response.status === 200) {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                this.setState({ imageData: data });
+                if(this.state.imageData) {
+                    const stageScaleValue = Math.min(
+                        window.innerWidth / this.state.imageData.width,
+                        window.innerHeight / this.state.imageData.height * 0.8
+                    );
+                    this.setState({stageScale: stageScaleValue});
+                    const stageXValue = (window.innerWidth -
+                        this.state.imageData.width * this.state.stageScale) / 2;
+                    this.setState({stageX: stageXValue});
 
-            let data;
-            // Обработка ошибки 404
-            if(response.status === 404) {
-                this.setState({found: false, loaded: true});
-                return;
-            } else if(response.status === 200) {
-                data = await response.json();
-            } else {
-                console.log('Unexpected response: ');
-                console.log(response);
-            }
+                    let map_image = new window.Image();
+                    map_image.src = Constants.BACKEND_PREFIX + this.state.imageData.image;
+                    map_image.addEventListener('load', this.handleLoad);
+                    this.setState({image: map_image, found: true});
+                }
+            })
+            .catch(err => console.log('Send failed', err));
 
-            this.setState({ imageData: data });
-            if(this.state.imageData) {
-                const stageScaleValue = Math.min(
-                    window.innerWidth / this.state.imageData.width,
-                    window.innerHeight / this.state.imageData.height * 0.8
-                );
-                this.setState({stageScale: stageScaleValue});
-                const stageXValue = (window.innerWidth -
-                    this.state.imageData.width * this.state.stageScale) / 2;
-                this.setState({stageX: stageXValue});
-
-                let map_image = new window.Image();
-                map_image.src = Constants.BACKEND_PREFIX + this.state.imageData.image;
-                map_image.addEventListener('load', this.handleLoad);
-                this.setState({image: map_image, found: true});
-            }
-        };
-        request();
         if (document.getElementsByTagName('footer')) {
             document.getElementsByTagName('footer')[0].style.display = 'none';
         }
@@ -183,6 +176,8 @@ class Map extends Component {
             return {x: new_x, y: new_y};
         };
 
+
+        // TODO: поправить размер кнопки НАЗАД
         return (
             <main>
                 <div
