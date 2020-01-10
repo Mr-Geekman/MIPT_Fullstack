@@ -68,28 +68,23 @@ class RegistrationForm extends Component {
 
         if (!data.username) {
             this.setState({
-                error: 'Введите имя пользователя!'
+                error: 'Введите имя пользователя.'
             });
             return;
         }
         if (!data.password) {
             this.setState({
-                error: 'Введите пароль!'
+                error: 'Введите пароль.'
             });
             return;
         } 
         if (!data.email) {
             this.setState({
-                error: 'Введите email!'
+                error: 'Введите email.'
             });
             return;
         }
 
-        // TODO: научиться обрабатывать ошибки 400
-        // Воспроизвести можно при помощи создания пользователя с уже занятым username
-        // Для того, чтобы посмотреть, какие пользователи существуют и удаления их
-        // можно воспользовать админкой, которая доступна по адресу localhost:8000/admin
-        // TODO: после отладки убрать console.log
         fetch(Constants.REGISTER_ENDPOINT, {
             method: 'POST',
             headers: {
@@ -98,29 +93,22 @@ class RegistrationForm extends Component {
             body: JSON.stringify(data),
         })
             .then(response => {
-                console.log('Response in fetch', response);
-                const res = response.json();
-                if (response.ok === true) {
-                    return res;
-                }
-                throw new Error(response.status)
+                return response.ok ? response.json() : Promise.reject(response);
             })
             .then(data => {
-                console.log('Data', data);
                 localStorage.setItem('token', data['token']);
                 this.props.enter(data.user);
             })
-            .catch(error => {
-                let status = error['message'];
-                let errorText = '';
-                if (status === '400') {
-                    errorText = 'Логин занят!';
-                }
-                else {
-                    errorText = 'Ошибка, но мы уже побежали ее исправлять';
-                }
-                this.setState({
-                    error: errorText
+            .catch(response => {
+                response.json().then(data => {
+                    for (let i in Object.keys(data)) {
+                        let error_array = data[Object.keys(data)[i]];
+                        for (let j in error_array) {
+                            this.setState({
+                                error: error_array[j]
+                            });
+                        }
+                    }
                 });
             });
     };
