@@ -177,7 +177,6 @@ class Map extends Component {
         };
 
 
-        // TODO: поправить размер кнопки НАЗАД
         return (
             <main>
                 <div
