@@ -39,7 +39,6 @@ const marker = mark_props => (
             data={get_data(mark_props, 1)}
             stroke={"white"}
             width={10}
-            opacity={0.8 * mark_props.opacity}
         />
         <Path 
             x={- mark_props.radius}
@@ -47,7 +46,6 @@ const marker = mark_props => (
             data={get_data(mark_props, -1)}
             stroke={"white"}
             width={10}
-            opacity
         />
         <Circle
             x={0}
