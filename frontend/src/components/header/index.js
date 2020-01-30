@@ -36,7 +36,7 @@ class Header extends Component {
                 .then(response => {
                     const res = response.json();
                     if (!response.ok) {
-                        throw new Error(String(response.status));
+                        //do nothing
                     }
                     return res;
                 })
