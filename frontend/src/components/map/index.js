@@ -23,10 +23,12 @@ class Map extends Component {
             inform: null, // текущий элемента на информационной панели
             stageScale: 1,
             stageX: 1,
+            minScaleValue: 0,
         };
 
         this.handleLoad = this.handleLoad.bind(this);
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
+        this.bound_function = this.bound_function.bind(this);
     }
 
 
@@ -47,6 +49,43 @@ class Map extends Component {
         });
     };
 
+
+    //ограничительная функция
+    //используется при перемещении и масштабировании
+    bound_function = (position) => {
+        let visible_width = window.innerWidth;
+        let visible_height = this.state.height;
+        let current_height = this.state.imageData.height * 
+                            this.state.stageScale;
+        let current_width = this.state.imageData.width * 
+                            this.state.stageScale;
+
+        let new_x = position.x;
+        let new_y = position.y;
+        if (current_height < visible_height) {
+            if (position.y < 0) new_y = 0;
+            if (position.y + current_height > visible_height) 
+                new_y = visible_height - current_height;
+        }
+        else {
+            if (position.y > 0 ) new_y = 0;
+            if (position.y + current_height < visible_height)
+                new_y = visible_height - current_height;
+        }
+        if (current_width < visible_width) {
+            if (position.x < 0) new_x = 0;
+            if (position.x + current_width > visible_width) 
+                new_x = visible_width - current_width;
+        }
+        else {
+            if (position.x > 0) new_x = 0;
+            if (position.x + current_width < visible_width) 
+                new_x = visible_width - current_width; 
+        }
+    
+        return {x: new_x, y: new_y};
+    };
+
     componentDidMount() {
         let url = `${Constants.MAPS_PREFIX}/${this.state.name}/`;
 
@@ -65,7 +104,10 @@ class Map extends Component {
                         window.innerWidth / this.state.imageData.width,
                         window.innerHeight / this.state.imageData.height * 0.8
                     );
-                    this.setState({stageScale: stageScaleValue});
+                    this.setState({
+                        stageScale: stageScaleValue,
+                        minScaleValue: stageScaleValue
+                    });
                     const stageXValue = (window.innerWidth -
                         this.state.imageData.width * this.state.stageScale) / 2;
                     this.setState({stageX: stageXValue});
@@ -110,6 +152,11 @@ class Map extends Component {
         };
 
         const newScale = e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+        if (newScale < this.state.minScaleValue) return;
+
+
+        console.log("before", stage.absolutePosition())
+        
 
         stage.scale({ x: newScale, y: newScale });
 
@@ -120,10 +167,13 @@ class Map extends Component {
             stageY:
                 -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale
         });
+
+
+        
     };
     
     handleClick = (index) => {
-        console.log(index);
+        //console.log(index);
         return e => {
             e.evt.preventDefault();
             this.setState({
@@ -166,15 +216,6 @@ class Map extends Component {
         // В таком случае часть экрана никак не будет заполнена изображением.
         let visible_width = window.innerWidth;
         let visible_height = this.state.height;
-        let bound_function = function (position) {
-            console.log('called');
-            // Придумать, откуда брать размеры картинки (вариант: redux)
-            let map_width = this.state.imageData.width - visible_width;
-            let map_height = this.state.imageData.height - visible_height;
-            let new_x = Math.max(Math.min(0, position.x), -map_width);
-            let new_y = Math.max(Math.min(0, position.y), -map_height);
-            return {x: new_x, y: new_y};
-        };
 
 
         return (
@@ -202,7 +243,7 @@ class Map extends Component {
                     x={this.state.stageX}
                     y={this.state.stageY}
                 >
-                    <Layer draggable /*dragBoundFunc={bound_function}*/>
+                    <Layer draggable dragBoundFunc={this.bound_function}>
                         <Image
                             image={this.state.image}
                         />
