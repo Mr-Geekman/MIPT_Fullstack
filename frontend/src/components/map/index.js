@@ -140,6 +140,7 @@ class Map extends Component {
         document.getElementsByTagName('footer')[0].style.display = 'block';
     }
 
+
     handleWheel = e => {
         e.evt.preventDefault();
 
@@ -155,9 +156,6 @@ class Map extends Component {
         if (newScale < this.state.minScaleValue) return;
 
 
-        console.log("before", stage.absolutePosition())
-        
-
         stage.scale({ x: newScale, y: newScale });
 
         this.setState({
@@ -168,8 +166,10 @@ class Map extends Component {
                 -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale
         });
 
-
-        
+        let layer = stage.getChildren()[0];
+        layer.absolutePosition(this.bound_function(
+            layer.absolutePosition()
+        ));        
     };
     
     handleClick = (index) => {
@@ -216,6 +216,9 @@ class Map extends Component {
         // В таком случае часть экрана никак не будет заполнена изображением.
         let visible_width = window.innerWidth;
         let visible_height = this.state.height;
+
+        let markers = null;
+
 
 
         return (
