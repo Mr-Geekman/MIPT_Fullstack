@@ -26,9 +26,22 @@ class Map extends Component {
             minScaleValue: 0,
         };
 
+        this.layer = React.createRef();
+
         this.handleLoad = this.handleLoad.bind(this);
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
         this.bound_function = this.bound_function.bind(this);
+        this.handleMove = this.handleMove.bind(this);
+        this.handleLayerCreation = this.handleLayerCreation.bind(this);
+
+        // выравнивание Layer после render
+        this.processLayerPosition = layer => {
+            layer.absolutePosition(
+                this.bound_function(
+                    layer.absolutePosition()
+                )
+            );
+        }
     }
 
 
@@ -63,9 +76,7 @@ class Map extends Component {
         let new_x = position.x;
         let new_y = position.y;
         if (current_height < visible_height) {
-            if (position.y < 0) new_y = 0;
-            if (position.y + current_height > visible_height) 
-                new_y = visible_height - current_height;
+            new_y = visible_height / 2 - current_height / 2;
         }
         else {
             if (position.y > 0 ) new_y = 0;
@@ -73,9 +84,7 @@ class Map extends Component {
                 new_y = visible_height - current_height;
         }
         if (current_width < visible_width) {
-            if (position.x < 0) new_x = 0;
-            if (position.x + current_width > visible_width) 
-                new_x = visible_width - current_width;
+            new_x = (visible_width - current_width) / 2
         }
         else {
             if (position.x > 0) new_x = 0;
@@ -116,6 +125,7 @@ class Map extends Component {
                     map_image.src = Constants.BACKEND_PREFIX + this.state.imageData.image;
                     map_image.addEventListener('load', this.handleLoad);
                     this.setState({image: map_image, found: true});
+
                 }
             })
             .catch(err => console.log('Send failed', err));
@@ -189,6 +199,26 @@ class Map extends Component {
         });
     };
 
+    handleMove = e => {
+        e.evt.preventDefault();
+
+        const stage = e.target.getStage();
+        const layer = stage.getChildren()[0];
+
+        let x_pointer_position = stage.getPointerPosition().x - layer.absolutePosition().x;
+        let y_pointer_position = stage.getPointerPosition().y - layer.absolutePosition().y;
+
+        console.log(x_pointer_position, y_pointer_position);
+
+    }
+
+    handleLayerCreation = e => {
+        e.evt.preventDefault();
+
+        const layer = e.target.getStage();
+        console.log("hello!");
+    }
+
     getMarginLeft() {
         if (this.state.markersOpacity === 0) {
             return "15px";
@@ -216,9 +246,10 @@ class Map extends Component {
         // В таком случае часть экрана никак не будет заполнена изображением.
         let visible_width = window.innerWidth;
         let visible_height = this.state.height;
-
-        let markers = null;
-
+        let current_height = this.state.imageData.height * 
+                            this.state.stageScale;
+        let current_width = this.state.imageData.width * 
+                            this.state.stageScale;
 
 
         return (
@@ -246,7 +277,12 @@ class Map extends Component {
                     x={this.state.stageX}
                     y={this.state.stageY}
                 >
-                    <Layer draggable dragBoundFunc={this.bound_function}>
+                    <Layer 
+                        draggable 
+                        dragBoundFunc={this.bound_function}
+                        onMouseMove={this.handleMove}
+                        ref={this.processLayerPosition}
+                        >
                         <Image
                             image={this.state.image}
                         />
