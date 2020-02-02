@@ -10,7 +10,7 @@ class Footer extends Component {
         return (
             <footer>
                 <p>
-                    © Gaze.com 2019-2019
+                    © Gaze.com 2019-2020
                 </p>
             </footer>
         );
