@@ -32,10 +32,10 @@ class Map extends Component {
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
         this.bound_function = this.bound_function.bind(this);
         this.handleMove = this.handleMove.bind(this);
-        this.handleLayerCreation = this.handleLayerCreation.bind(this);
 
         // выравнивание Layer после render
         this.processLayerPosition = layer => {
+            if (!layer) return;
             layer.absolutePosition(
                 this.bound_function(
                     layer.absolutePosition()
@@ -199,6 +199,8 @@ class Map extends Component {
         });
     };
 
+
+    //для воспроизведения музыки
     handleMove = e => {
         e.evt.preventDefault();
 
@@ -210,13 +212,6 @@ class Map extends Component {
 
         console.log(x_pointer_position, y_pointer_position);
 
-    }
-
-    handleLayerCreation = e => {
-        e.evt.preventDefault();
-
-        const layer = e.target.getStage();
-        console.log("hello!");
     }
 
     getMarginLeft() {
@@ -246,11 +241,6 @@ class Map extends Component {
         // В таком случае часть экрана никак не будет заполнена изображением.
         let visible_width = window.innerWidth;
         let visible_height = this.state.height;
-        let current_height = this.state.imageData.height * 
-                            this.state.stageScale;
-        let current_width = this.state.imageData.width * 
-                            this.state.stageScale;
-
 
         return (
             <main>
@@ -261,7 +251,6 @@ class Map extends Component {
                         "margin-left": this.getMarginLeft()
                     }}
                 >
-                    <span>{"НАЗАД"}</span>
                 </div>
                 <InformationPanel
                     source={this.state.inform}
