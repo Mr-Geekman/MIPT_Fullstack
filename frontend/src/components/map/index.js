@@ -7,6 +7,7 @@ import PageNotFound from "../../components/pageNotFound";
 import marker from "./marker"
 import InformationPanel from "./informationPanel";
 import MapLoader from "./mapLoader";
+import SettingPanel from './settingPanel';
 
 
 class Map extends Component {
@@ -20,6 +21,7 @@ class Map extends Component {
             imageData: {},
             image: {},
             markersOpacity: 1,
+            markersView: 1,
             inform: null, // текущий элемента на информационной панели
             stageScale: 1,
             stageX: 1,
@@ -62,6 +64,12 @@ class Map extends Component {
         });
     };
 
+    changeMarkersVisability = () => {
+        this.setState({
+            markersView: 1 - this.state.markersView
+        });
+        return this.state.markersView;
+    }
 
     //ограничительная функция
     //используется при перемещении и масштабировании
@@ -242,8 +250,24 @@ class Map extends Component {
         let visible_width = window.innerWidth;
         let visible_height = this.state.height;
 
+        let markers = null;
+        if (this.state.markersView) {
+            markers = this.state.imageData.marks.map(
+                // handleClick каррируется
+                // туда передается только index, аргумент e попадает при нажатии
+                (mark_props, index) => marker(Object.assign(mark_props,
+                    {
+                        handler: this.handleClick(index),
+                        opacity: this.state.markersOpacity
+                    }))
+            );
+        }
+
         return (
             <main>
+                <SettingPanel 
+                    changeVisability={this.changeMarkersVisability}
+                />
                 <div
                     className={"back-button"}
                     onClick={this.handleBack}
@@ -252,6 +276,7 @@ class Map extends Component {
                     }}
                 >
                 </div>
+    
                 <InformationPanel
                     source={this.state.inform}
                     show={1 - this.state.markersOpacity}
@@ -275,15 +300,7 @@ class Map extends Component {
                         <Image
                             image={this.state.image}
                         />
-                        {this.state.imageData.marks.map(
-                            // handleClick каррируется
-                            // туда передается только index, аргумент e попадает при нажатии
-                            (mark_props, index) => marker(Object.assign(mark_props,
-                                {
-                                    handler: this.handleClick(index),
-                                    opacity: this.state.markersOpacity
-                                }))
-                        )}
+                        {markers}
                     </Layer>
                 </Stage>
             </main>
