@@ -1,19 +1,32 @@
 from django.contrib import admin
-from .models import Map, MapMark, Profile
+from .models import Map, MapMark, Profile, \
+    Audio, MapDescriptionItem, MarkDescriptionItem
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
 
-class MapInline(admin.StackedInline):
+class Marks(admin.StackedInline):
     """Класс для администрировния меток внутри карты."""
     model = MapMark
-    extra = 1
+
+# class MarkDescriptionFragment(admin.StackedInline):
+#     """Класс для алминистрирования описания меток внутри карты"""
+#     model = MarkDescriptionItem
+
+
+class DescriptionFragment(admin.StackedInline):
+    """Класс для администрирования описания внутри карты"""
+    model = MapDescriptionItem
 
 
 class MapAdmin(admin.ModelAdmin):
     """Класс для администрирования карты."""
-    inlines = [MapInline]
+    inlines = [Marks, DescriptionFragment]
     exclude = ['width', 'height']
+
+class AudioInline(admin.StackedInline):
+    """Класс для администрирования аудио треков"""
+    model = Audio
 
 
 class ProfileInline(admin.StackedInline):
@@ -30,5 +43,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(Map, MapAdmin)
+admin.site.register(Audio, admin.ModelAdmin)
+admin.site.register(MarkDescriptionItem, admin.ModelAdmin)
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

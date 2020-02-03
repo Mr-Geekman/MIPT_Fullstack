@@ -1,17 +1,23 @@
 import React, {Component} from 'react';
 import './styles.css'
-import * as Constants from "../../../constants/constants";
 
-
-function renderInfo(mark) {
-    return (
-        <React.Fragment>
-            <h1>{mark.title}</h1>
-            <img className={"article-img"} src={Constants.BACKEND_PREFIX + mark.image} />
-            <p>{mark.content}</p>
-        </React.Fragment>
-
-    );
+function renderNode(node) {
+    switch (node.type) {
+        case 'h1':
+            return (
+                <h1>{node.header}</h1>
+            );
+        case 'img':
+            return (
+                <img className={"article-img"} src={node.src} draggable={"false"}/>
+            );
+        case 'paragraph':
+            return (
+              <p>{node.text}</p>
+            );
+        default:
+            return null;
+    }
 }
 
 class InformationPanel extends Component {
@@ -26,7 +32,7 @@ class InformationPanel extends Component {
         }
         if (!this.props.source) {
             return (
-                <div className={"information-panel"} style={
+                <div className={"informationPanel"} style={
                     {
                         "margin-left": margin_left,
                         height: this.props.height
@@ -36,13 +42,13 @@ class InformationPanel extends Component {
             );
         }
         return (
-            <div className={"information-panel"} style={
+            <div className={"informationPanel"} style={
                 {
                     "margin-left": margin_left,
                     height: this.props.height
                 }
             }>
-                {renderInfo(this.props.source)}
+                {this.props.source.map(node => renderNode(node))}
             </div>
         );
     }
