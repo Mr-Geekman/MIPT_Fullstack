@@ -163,7 +163,7 @@ class MapDescriptionItem(models.Model):
     src = models.FileField('Прикрепить файл', blank=True, 
                 upload_to='maps/description')
 
-    map = models.ForeignKey('Map', related_name='map_description_item', blank=False,
+    map = models.ForeignKey('Map', related_name='map_description_items', blank=False,
                             on_delete=models.CASCADE)
 
     def __str__(self):
@@ -193,7 +193,7 @@ class MarkDescriptionItem(models.Model):
     src = models.FileField('Прикрепить файл', blank=True, 
                 upload_to='maps/description')
 
-    mark = models.ForeignKey('MapMark', related_name='mark_description_item', blank=False,
+    mark = models.ForeignKey('MapMark', related_name='mark_description_items', blank=False,
                             on_delete=models.CASCADE)
 
     def __str__(self):
