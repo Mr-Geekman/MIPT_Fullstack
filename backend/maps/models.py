@@ -157,7 +157,7 @@ class MapDescriptionItem(models.Model):
 
     # текстовая часть (если есть)
     content = models.TextField('Содержание', blank=True,
-                            help_text='Используйте теги <a>, <i>, <b> и т.д.')
+                            help_text='Используйте теги html и т.д.')
 
     # файловая часть (если есть)
     src = models.FileField('Прикрепить файл', blank=True, 
@@ -175,7 +175,7 @@ class MarkDescriptionItem(models.Model):
     class Meta:
         db_table = "mark_description_item"
         verbose_name = "Фрагмент описания метки"
-        verbose_name_plural = "Описание метки"
+        verbose_name_plural = "Описания меток"
 
     # тип фрагмента описания
     type = models.CharField('Тип', choices=(

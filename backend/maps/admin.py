@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 class Marks(admin.StackedInline):
     """Класс для администрировния меток внутри карты."""
     model = MapMark
+    extra = 1
 
 # class MarkDescriptionFragment(admin.StackedInline):
 #     """Класс для алминистрирования описания меток внутри карты"""
@@ -17,6 +18,7 @@ class Marks(admin.StackedInline):
 class DescriptionFragment(admin.StackedInline):
     """Класс для администрирования описания внутри карты"""
     model = MapDescriptionItem
+    extra = 1
 
 
 class MapAdmin(admin.ModelAdmin):
