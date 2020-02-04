@@ -8,6 +8,7 @@ import marker from "./marker"
 import InformationPanel from "./informationPanel";
 import MapLoader from "./mapLoader";
 import SettingPanel from './settingPanel';
+import AudioPlayer from './audioPlayer';
 
 
 class Map extends Component {
@@ -29,6 +30,9 @@ class Map extends Component {
         };
 
         this.layer = React.createRef();
+        this.AudioPlayer = null;
+        this.vertical_parts_count = 0;
+        this.horizontal_parts_count = 0;
 
         this.handleLoad = this.handleLoad.bind(this);
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
@@ -36,6 +40,7 @@ class Map extends Component {
         this.handleMove = this.handleMove.bind(this);
         this.changeMarkersVisability = this.changeMarkersVisability.bind(this);
         this.showSummary = this.showSummary.bind(this);
+        
 
         // выравнивание Layer после render
         this.processLayerPosition = layer => {
@@ -143,6 +148,11 @@ class Map extends Component {
                     map_image.src = Constants.BACKEND_PREFIX + this.state.imageData.image;
                     map_image.addEventListener('load', this.handleLoad);
                     this.setState({image: map_image, found: true});
+                    this.audioPlayer = new AudioPlayer(data.audio_map, data.tracks);
+                    
+                    let parts = data.audio_map.split(',');
+                    this.vertical_parts_count = parts.length;
+                    this.horizontal_parts_count = (parts[0].trim()).split(' ').length;
                 }
             })
             .catch(err => console.log('Send failed', err));
@@ -229,8 +239,17 @@ class Map extends Component {
         let x_pointer_position = stage.getPointerPosition().x - layer.absolutePosition().x;
         let y_pointer_position = stage.getPointerPosition().y - layer.absolutePosition().y;
 
-        // console.log(x_pointer_position, y_pointer_position);
+        let current_height = this.state.imageData.height * 
+                            this.state.stageScale;
+        let current_width = this.state.imageData.width * 
+                            this.state.stageScale;
 
+        this.audioPlayer.change(
+            Math.trunc(x_pointer_position / current_width * 
+                this.horizontal_parts_count), 
+            Math.trunc(y_pointer_position / current_height * 
+                this.vertical_parts_count)
+        );
     }
 
     getMarginLeft() {
