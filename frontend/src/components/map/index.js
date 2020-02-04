@@ -34,6 +34,8 @@ class Map extends Component {
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
         this.bound_function = this.bound_function.bind(this);
         this.handleMove = this.handleMove.bind(this);
+        this.changeMarkersVisability = this.changeMarkersVisability.bind(this);
+        this.showSummary = this.showSummary.bind(this);
 
         // выравнивание Layer после render
         this.processLayerPosition = layer => {
@@ -69,6 +71,13 @@ class Map extends Component {
             markersView: 1 - this.state.markersView
         });
         return this.state.markersView;
+    }
+
+    showSummary = () => {
+        this.setState({
+            inform: this.state.imageData.map_description_items,
+            markersOpacity: 0
+        })
     }
 
     //ограничительная функция
@@ -115,6 +124,7 @@ class Map extends Component {
                 }
             })
             .then(data => {
+                console.log(data);
                 this.setState({ imageData: data });
                 if(this.state.imageData) {
                     const stageScaleValue = Math.min(
@@ -133,7 +143,6 @@ class Map extends Component {
                     map_image.src = Constants.BACKEND_PREFIX + this.state.imageData.image;
                     map_image.addEventListener('load', this.handleLoad);
                     this.setState({image: map_image, found: true});
-
                 }
             })
             .catch(err => console.log('Send failed', err));
@@ -152,6 +161,8 @@ class Map extends Component {
         else {
             window.addEventListener('load', this.handleWindowLoad);
         }
+
+        
     }
 
     componentWillUnmount() {
@@ -195,7 +206,7 @@ class Map extends Component {
         return e => {
             e.evt.preventDefault();
             this.setState({
-                inform: this.state.imageData.marks[index],
+                inform: this.state.imageData.marks[index].mark_description_items,
                 markersOpacity: 0
             });
         }
@@ -218,7 +229,7 @@ class Map extends Component {
         let x_pointer_position = stage.getPointerPosition().x - layer.absolutePosition().x;
         let y_pointer_position = stage.getPointerPosition().y - layer.absolutePosition().y;
 
-        console.log(x_pointer_position, y_pointer_position);
+        // console.log(x_pointer_position, y_pointer_position);
 
     }
 
@@ -263,10 +274,13 @@ class Map extends Component {
             );
         }
 
+        console.log('render', this.state)
+
         return (
             <main>
                 <SettingPanel 
                     changeVisability={this.changeMarkersVisability}
+                    showSummary={this.showSummary}
                 />
                 <div
                     className={"back-button"}
@@ -276,12 +290,12 @@ class Map extends Component {
                     }}
                 >
                 </div>
-    
                 <InformationPanel
                     source={this.state.inform}
                     show={1 - this.state.markersOpacity}
                     height={visible_height}
                 />
+    
                 <Stage
                     width={visible_width}
                     height={this.state.height}

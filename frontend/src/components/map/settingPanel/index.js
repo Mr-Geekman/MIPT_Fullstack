@@ -30,6 +30,7 @@ const SettingPanel = (props) => (
         <div 
             className={"inform-sign"}
             title="Описание карты"
+            onClick={props.showSummary}
         >
             i
         </div>

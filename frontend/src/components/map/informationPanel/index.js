@@ -1,19 +1,35 @@
 import React, {Component} from 'react';
+import * as Constants from "../../../constants/constants";
 import './styles.css'
 
 function renderNode(node) {
+    console.log('node', node)
     switch (node.type) {
         case 'h1':
             return (
-                <h1>{node.header}</h1>
+                <h1>{node.content}</h1>
+            );
+        case 'h3':
+            return (
+                <h3>{node.content}</h3>
             );
         case 'img':
             return (
-                <img className={"article-img"} src={node.src} draggable={"false"}/>
+                <div>
+                    <img 
+                        className={"article-img"} src={Constants.BACKEND_PREFIX +  node.src} 
+                        draggable={"false"}
+                    />
+                    <div className={"article-img-caption"}>
+                        <i>{node.content}</i>
+                    </div>
+                </div>
             );
         case 'paragraph':
             return (
-              <p>{node.text}</p>
+                <p>
+                <div dangerouslySetInnerHTML={{ __html: node.content}} />    
+                </p>
             );
         default:
             return null;
@@ -30,9 +46,13 @@ class InformationPanel extends Component {
         if (this.props.show === 1){
             margin_left = "60vw";
         }
+
+        console.log(margin_left)
+
         if (!this.props.source) {
+            console.log('Alles gut')
             return (
-                <div className={"informationPanel"} style={
+                <div className={"information-panel"} style={
                     {
                         "margin-left": margin_left,
                         height: this.props.height
@@ -41,8 +61,10 @@ class InformationPanel extends Component {
                 </div>
             );
         }
+
+        console.log(this.props.source)
         return (
-            <div className={"informationPanel"} style={
+            <div className={"information-panel"} style={
                 {
                     "margin-left": margin_left,
                     height: this.props.height

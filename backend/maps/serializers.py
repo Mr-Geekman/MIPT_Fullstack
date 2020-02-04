@@ -46,7 +46,7 @@ class MapSerializer(serializers.ModelSerializer):
 class MapCutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Map
-        fields = ['url', 'title', 'description', 'thumbnail']
+        fields = ['id', 'url', 'title', 'description', 'thumbnail']
 
 
 # TODO: api для получения текущего пользователя и просмотренных им меток
