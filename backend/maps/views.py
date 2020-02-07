@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Map
-from .serializers import MapSerializer
+from .serializers import MapSerializer, MapCutSerializer
 
 
 # Можно упростить : https://www.django-rest-framework.org/tutorial/3-class-based-views/
@@ -12,7 +12,7 @@ class ListMapsView(APIView):
     """Контроллер для работы с несколькими картами"""
     def get(self, request):
         maps = Map.objects.all()
-        serializer = MapSerializer(maps, many=True)
+        serializer = MapCutSerializer(maps, many=True)
         return Response(serializer.data)
 
 

@@ -27,9 +27,23 @@ const SettingPanel = (props) => (
             &bull;
             <div className={"brow"} />
         </div>
+        <div
+            className={"speaker-sign"}
+            onClick={() => {
+                let son = document.getElementsByClassName("traverser")[0];
+                if (props.changePlaying()) {
+                    son.style.height = "40px";
+                    return;
+                }
+                son.style.height = "0px";
+            }}
+        >
+            <div className={"traverser"} />
+        </div>
         <div 
             className={"inform-sign"}
             title="Описание карты"
+            onClick={props.showSummary}
         >
             i
         </div>

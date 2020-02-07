@@ -8,6 +8,7 @@ import marker from "./marker"
 import InformationPanel from "./informationPanel";
 import MapLoader from "./mapLoader";
 import SettingPanel from './settingPanel';
+import AudioPlayer from './audioPlayer';
 
 
 class Map extends Component {
@@ -29,11 +30,17 @@ class Map extends Component {
         };
 
         this.layer = React.createRef();
+        this.vertical_parts_count = 0;
+        this.horizontal_parts_count = 0;
 
         this.handleLoad = this.handleLoad.bind(this);
         this.handleWindowLoad = this.handleWindowLoad.bind(this);
         this.bound_function = this.bound_function.bind(this);
         this.handleMove = this.handleMove.bind(this);
+        this.changeMarkersVisability = this.changeMarkersVisability.bind(this);
+        this.showSummary = this.showSummary.bind(this);
+        this.handleLeave = this.handleLeave.bind(this);
+        
 
         // выравнивание Layer после render
         this.processLayerPosition = layer => {
@@ -69,6 +76,13 @@ class Map extends Component {
             markersView: 1 - this.state.markersView
         });
         return this.state.markersView;
+    }
+
+    showSummary = () => {
+        this.setState({
+            inform: this.state.imageData.map_description_items,
+            markersOpacity: 0
+        })
     }
 
     //ограничительная функция
@@ -115,6 +129,7 @@ class Map extends Component {
                 }
             })
             .then(data => {
+                console.log(data);
                 this.setState({ imageData: data });
                 if(this.state.imageData) {
                     const stageScaleValue = Math.min(
@@ -133,7 +148,20 @@ class Map extends Component {
                     map_image.src = Constants.BACKEND_PREFIX + this.state.imageData.image;
                     map_image.addEventListener('load', this.handleLoad);
                     this.setState({image: map_image, found: true});
+                    this.backgroundPlayer = new AudioPlayer(data.audio_map, data.tracks);
+                    this.backgroundPlayer.player.volume = 0.5;
 
+                    let parts = data.audio_map.split(',');
+                    this.vertical_parts_count = parts.length;
+                    this.horizontal_parts_count = (parts[0].trim()).split(' ').length;
+
+
+                    if (data.effects.length !== 0) {
+                        this.soundEffectsPlayer = new AudioPlayer(data.effects_map, data.effects);
+                        parts = data.effects_map.split(',')
+                        this.vertical_parts_effects_count = parts.length;
+                        this.horizontal_parts_effects_count = (parts[0].trim()).split(' ').length;
+                    }
                 }
             })
             .catch(err => console.log('Send failed', err));
@@ -152,10 +180,18 @@ class Map extends Component {
         else {
             window.addEventListener('load', this.handleWindowLoad);
         }
+
+        
     }
 
     componentWillUnmount() {
         document.getElementsByTagName('footer')[0].style.display = 'block';
+        this.backgroundPlayer.stop();
+        delete this.backgroundPlayer;
+        if (this.soundEffectsPlayer) {
+            this.soundEffectsPlayer.stop();
+            delete this.soundEffectsPlayer();
+        }
     }
 
 
@@ -195,7 +231,7 @@ class Map extends Component {
         return e => {
             e.evt.preventDefault();
             this.setState({
-                inform: this.state.imageData.marks[index],
+                inform: this.state.imageData.marks[index].mark_description_items,
                 markersOpacity: 0
             });
         }
@@ -218,8 +254,33 @@ class Map extends Component {
         let x_pointer_position = stage.getPointerPosition().x - layer.absolutePosition().x;
         let y_pointer_position = stage.getPointerPosition().y - layer.absolutePosition().y;
 
-        console.log(x_pointer_position, y_pointer_position);
+        let current_height = this.state.imageData.height * 
+                            this.state.stageScale;
+        let current_width = this.state.imageData.width * 
+                            this.state.stageScale;
 
+        this.backgroundPlayer.change(
+            Math.trunc(x_pointer_position / current_width * 
+                this.horizontal_parts_count), 
+            Math.trunc(y_pointer_position / current_height * 
+                this.vertical_parts_count)
+        );
+
+        if (!!this.soundEffectsPlayer) {
+            this.soundEffectsPlayer.change(
+                Math.trunc(x_pointer_position / current_width * 
+                    this.horizontal_parts_effects_count), 
+                Math.trunc(y_pointer_position / current_height * 
+                    this.vertical_parts_effects_count)
+            );
+        }
+    }
+
+    handleLeave = e => {
+        e.evt.preventDefault();
+
+        this.backgroundPlayer.map_leaved();
+        this.soundEffectsPlayer.map_leaved();
     }
 
     getMarginLeft() {
@@ -263,10 +324,27 @@ class Map extends Component {
             );
         }
 
+        console.log('render', this.state)
+
         return (
             <main>
                 <SettingPanel 
                     changeVisability={this.changeMarkersVisability}
+                    showSummary={this.showSummary}
+                    changePlaying={
+                        () => {
+                            if (this.backgroundPlayer.stopped) {
+                                this.backgroundPlayer.unstop();
+                                if (this.soundEffectsPlayer)
+                                    this.soundEffectsPlayer.unstop();
+                                return;
+                            }
+                            this.backgroundPlayer.stop();
+                            if (this.soundEffectsPlayer)
+                                this.soundEffectsPlayer.stop();
+                            return this.backgroundPlayer.stopped;
+                        }
+                    }
                 />
                 <div
                     className={"back-button"}
@@ -276,12 +354,12 @@ class Map extends Component {
                     }}
                 >
                 </div>
-    
                 <InformationPanel
                     source={this.state.inform}
                     show={1 - this.state.markersOpacity}
                     height={visible_height}
                 />
+    
                 <Stage
                     width={visible_width}
                     height={this.state.height}
@@ -295,6 +373,7 @@ class Map extends Component {
                         draggable 
                         dragBoundFunc={this.bound_function}
                         onMouseMove={this.handleMove}
+                        onMouseLeave={this.handleLeave}
                         ref={this.processLayerPosition}
                         >
                         <Image

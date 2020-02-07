@@ -1,17 +1,39 @@
 import React, {Component} from 'react';
-import './styles.css'
 import * as Constants from "../../../constants/constants";
+import './styles.css'
 
-
-function renderInfo(mark) {
-    return (
-        <React.Fragment>
-            <h1>{mark.title}</h1>
-            <img className={"article-img"} src={Constants.BACKEND_PREFIX + mark.image} />
-            <p>{mark.content}</p>
-        </React.Fragment>
-
-    );
+function renderNode(node) {
+    console.log('node', node)
+    switch (node.type) {
+        case 'h1':
+            return (
+                <h1>{node.content}</h1>
+            );
+        case 'h3':
+            return (
+                <h3>{node.content}</h3>
+            );
+        case 'img':
+            return (
+                <div>
+                    <img 
+                        className={"article-img"} src={Constants.BACKEND_PREFIX +  node.src} 
+                        draggable={"false"}
+                    />
+                    <div className={"article-img-caption"}>
+                        <i>{node.content}</i>
+                    </div>
+                </div>
+            );
+        case 'paragraph':
+            return (
+                <p>
+                <div dangerouslySetInnerHTML={{ __html: node.content}} />    
+                </p>
+            );
+        default:
+            return null;
+    }
 }
 
 class InformationPanel extends Component {
@@ -24,7 +46,11 @@ class InformationPanel extends Component {
         if (this.props.show === 1){
             margin_left = "60vw";
         }
+
+        console.log(margin_left)
+
         if (!this.props.source) {
+            console.log('Alles gut')
             return (
                 <div className={"information-panel"} style={
                     {
@@ -35,6 +61,8 @@ class InformationPanel extends Component {
                 </div>
             );
         }
+
+        console.log(this.props.source)
         return (
             <div className={"information-panel"} style={
                 {
@@ -42,7 +70,7 @@ class InformationPanel extends Component {
                     height: this.props.height
                 }
             }>
-                {renderInfo(this.props.source)}
+                {this.props.source.map(node => renderNode(node))}
             </div>
         );
     }

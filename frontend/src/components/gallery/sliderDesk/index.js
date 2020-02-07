@@ -17,7 +17,8 @@ class SliderDesk extends Component {
         fetch(`${Constants.MAPS_PREFIX}/`)
             .then(response => response.json())
             .then(data => {
-                this.setState({items: data})
+                console.log(data);
+                this.setState({items: data});
             })
             .catch(err => console.log('Send failed', err));
     }
