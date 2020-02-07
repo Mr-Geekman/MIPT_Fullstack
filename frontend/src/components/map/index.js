@@ -10,6 +10,8 @@ import MapLoader from "./mapLoader";
 import SettingPanel from './settingPanel';
 import AudioPlayer from './audioPlayer';
 
+import './styles.css';
+
 
 class Map extends Component {
     constructor(props) {
@@ -27,6 +29,7 @@ class Map extends Component {
             stageScale: 1,
             stageX: 1,
             minScaleValue: 0,
+            interacted: 0,
         };
 
         this.layer = React.createRef();
@@ -190,7 +193,7 @@ class Map extends Component {
         delete this.backgroundPlayer;
         if (this.soundEffectsPlayer) {
             this.soundEffectsPlayer.stop();
-            delete this.soundEffectsPlayer();
+            delete this.soundEffectsPlayer;
         }
     }
 
@@ -280,7 +283,8 @@ class Map extends Component {
         e.evt.preventDefault();
 
         this.backgroundPlayer.map_leaved();
-        this.soundEffectsPlayer.map_leaved();
+        if (!!this.soundEffectsPlayer)
+            this.soundEffectsPlayer.map_leaved();
     }
 
     getMarginLeft() {
@@ -304,6 +308,24 @@ class Map extends Component {
             return (
                 <PageNotFound/>
             );
+        }
+
+        if (!this.state.interacted) {
+            return (
+                <div 
+                    className={"interaction-div"}
+                    style={{
+                        "height": this.state.height
+                    }}
+                    onClick={e => {
+                        this.setState({
+                            interacted: 1
+                        });
+                    }}
+                >
+                    <div>Нажмите, чтобы начать</div>
+                </div>
+            )
         }
         // Проблема: visible_width и visible_height не обновляются.
         // Для воспроизведения нужно перезагрузить страницу с открытым режимом разработчика, а затем выклюить его.
