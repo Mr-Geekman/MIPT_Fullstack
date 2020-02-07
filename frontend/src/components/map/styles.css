@@ -5,6 +5,7 @@
     width: 100%;
     cursor: pointer;
     color: white;
+    text-align: center;
     font-size: 42pt;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
