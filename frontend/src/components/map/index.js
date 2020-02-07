@@ -309,6 +309,16 @@ class Map extends Component {
                 <SettingPanel 
                     changeVisability={this.changeMarkersVisability}
                     showSummary={this.showSummary}
+                    changePlaying={
+                        () => {
+                            if (this.audioPlayer.stopped) {
+                                this.audioPlayer.unstop();
+                                return;
+                            }
+                            this.audioPlayer.stop();
+                            return this.audioPlayer.stopped;
+                        }
+                    }
                 />
                 <div
                     className={"back-button"}

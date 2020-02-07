@@ -37,10 +37,16 @@ class AudioPlayer {
     stop() {
         clearTimeout(this.timer);
         this.player.pause();
+        this.player.currentTime = 0;
         this.willPlay = 0;
         this.currentPlay = 0;
         this.i = -1;
         this.j = -1;
+        this.stopped = 1;
+    }
+
+    unstop() {
+        this.stopped = 0;
     }
 
     map_leaved() {

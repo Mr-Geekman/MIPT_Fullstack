@@ -5,6 +5,38 @@
     position: absolute;
 }
 
+.speaker-sign {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    margin-left: 0;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 9997;
+    transition-duration: 1s;
+    background-color: gray;
+    background-image: url('../../../static/img/speaker.png');
+    background-size:  80% 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.speaker-sign > .traverser {
+    transition-duration: 1s;
+    background-color: white;
+    width: 4px;
+    transform: rotate(45deg);
+    transform-origin: right top;
+    height: 0px;
+    position: fixed;
+    margin-left: 30px;
+    margin-top: 6px;
+}
+
+.speaker-sign:hover {
+    background-color: rgb(150, 150, 150);
+}
+
 .inform-sign {
     position: fixed;
     width: 40px;
@@ -67,7 +99,7 @@
     transition-duration: 0.6s;
 }
 
-.brow:hover {
+.eye:hover > .brow {
     border-radius: 70%/15px 15px 0 0;
 }
 
@@ -95,6 +127,11 @@
 }
 
 .setting-panel:hover > .inform-sign {
+    opacity: 0.8;
+    margin-left: 120px;
+}
+
+.setting-panel:hover > .speaker-sign {
     opacity: 0.8;
     margin-left: 80px;
 }
