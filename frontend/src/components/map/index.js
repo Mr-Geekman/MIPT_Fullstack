@@ -40,6 +40,7 @@ class Map extends Component {
         this.handleMove = this.handleMove.bind(this);
         this.changeMarkersVisability = this.changeMarkersVisability.bind(this);
         this.showSummary = this.showSummary.bind(this);
+        this.handleLeave = this.handleLeave.bind(this);
         
 
         // выравнивание Layer после render
@@ -177,6 +178,8 @@ class Map extends Component {
 
     componentWillUnmount() {
         document.getElementsByTagName('footer')[0].style.display = 'block';
+        this.audioPlayer.stop();
+        delete this.audioPlayer;
     }
 
 
@@ -250,6 +253,12 @@ class Map extends Component {
             Math.trunc(y_pointer_position / current_height * 
                 this.vertical_parts_count)
         );
+    }
+
+    handleLeave = e => {
+        e.evt.preventDefault();
+
+        this.audioPlayer.map_leaved();
     }
 
     getMarginLeft() {
@@ -328,6 +337,7 @@ class Map extends Component {
                         draggable 
                         dragBoundFunc={this.bound_function}
                         onMouseMove={this.handleMove}
+                        onMouseLeave={this.handleLeave}
                         ref={this.processLayerPosition}
                         >
                         <Image
