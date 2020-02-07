@@ -23,7 +23,17 @@ class Header extends Component {
             logged_in: localStorage.getItem('token') ? true : false,
             username: '',
         };
+        this.handleWindow = this.handleWindow.bind(this);
     }
+
+
+    handleWindow = (e) => {
+        e.preventDefault();
+        let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -
+            document.getElementsByTagName('footer')[0].clientHeight;
+        console.log(height);
+        this.props.setHeight(height);
+    };
 
     componentDidMount() {
         if (this.state.logged_in) {
@@ -45,6 +55,17 @@ class Header extends Component {
                     this.props.enter(data);
                 })
             }
+        if (document.getElementsByTagName("footer") &&
+            document.getElementsByTagName("header")){
+            let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -
+                document.getElementsByTagName('footer')[0].clientHeight;
+            this.props.setHeight(height);
+        }
+        else {
+            window.addEventListener('load', this.handleWindow);
+        }
+
+        window.addEventListener('resize', this.handleWindow);
     }
 
     render() {

@@ -1,4 +1,5 @@
 export const USER_DATA = 'user_data'; 
+export const CHANGE_HEIGHT = 'change_height';
 
 export function setUserData(user_data) {
     return {
@@ -10,3 +11,11 @@ export function setUserData(user_data) {
         }
     }
 }
+
+export function setHeight(height) {
+    return {
+        type: CHANGE_HEIGHT,
+        height: height
+    }
+}
+

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setUserData } from "../actions";
+import { setUserData, setHeight } from "../actions";
 import Header from "../../components/header";
 
 const mapStateToProps = (state) => {
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
         onEscapeClick: () => {
             localStorage.removeItem('token');
             dispatch(setUserData(undefined));
+        },
+        setHeight: (height) => {
+            dispatch(setHeight(height));
         }
     };
 };

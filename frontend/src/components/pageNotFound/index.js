@@ -7,25 +7,12 @@ class PageNotFound extends Component {
     constructor(props){
         super(props);
         this.state = {
-            ready: false,
-            height: 0
+            ready: false
         };
-        this.handleLoad = this.handleLoad.bind(this);
     }
-
-    // TODO: не срабатывает при загрузке в firefox - как следствие, не показывается изображение
-    handleLoad = (e) => {
-        let height = window.innerHeight - document.getElementsByTagName('header')[0].clientHeight -
-            document.getElementsByTagName('footer')[0].clientHeight;
-        console.log(height);
-        this.setState({
-            height: height
-        });
-    };
 
     componentDidMount() {
         this.setState({ready: true});
-        window.addEventListener('load', this.handleLoad);
     }
 
     render() {
@@ -36,7 +23,7 @@ class PageNotFound extends Component {
         return (
             <div className="content-404" style={
                 {
-                    height: this.state.height
+                    height: this.props.height
                 }
             }>
                 <div className="text-404">
