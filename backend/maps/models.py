@@ -110,7 +110,15 @@ class Map(models.Model):
     audio_map = models.TextField('Карта аудио')
 
     # треки
-    tracks = models.ManyToManyField('Audio')
+    tracks = models.ManyToManyField('Audio', related_name="background_tracks")
+
+    # еще одна аудио карта
+    effects_map = models.TextField('Карта звуковых эффектов', blank=True)
+
+    # звуковые эффекты
+    effects = models.ManyToManyField('Audio', related_name="sound_effects", blank=True)
+
+
 
     def __str__(self):
         return self.title

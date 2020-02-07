@@ -30,7 +30,6 @@ class Map extends Component {
         };
 
         this.layer = React.createRef();
-        this.AudioPlayer = null;
         this.vertical_parts_count = 0;
         this.horizontal_parts_count = 0;
 
@@ -149,7 +148,11 @@ class Map extends Component {
                     map_image.src = Constants.BACKEND_PREFIX + this.state.imageData.image;
                     map_image.addEventListener('load', this.handleLoad);
                     this.setState({image: map_image, found: true});
-                    this.audioPlayer = new AudioPlayer(data.audio_map, data.tracks);
+                    this.backgroundPlayer = new AudioPlayer(data.audio_map, data.tracks);
+
+                    if (data.effects.length !== 0) {
+                        this.soundEffectsPlayer = new AudioPlayer(data.effects_map, data.effects);
+                    }
                     
                     let parts = data.audio_map.split(',');
                     this.vertical_parts_count = parts.length;
@@ -178,8 +181,12 @@ class Map extends Component {
 
     componentWillUnmount() {
         document.getElementsByTagName('footer')[0].style.display = 'block';
-        this.audioPlayer.stop();
-        delete this.audioPlayer;
+        this.backgroundPlayer.stop();
+        delete this.backgroundPlayer;
+        if (this.soundEffectsPlayer) {
+            this.soundEffectsPlayer.stop();
+            delete this.soundEffectsPlayer();
+        }
     }
 
 
@@ -247,7 +254,7 @@ class Map extends Component {
         let current_width = this.state.imageData.width * 
                             this.state.stageScale;
 
-        this.audioPlayer.change(
+        this.backgroundPlayer.change(
             Math.trunc(x_pointer_position / current_width * 
                 this.horizontal_parts_count), 
             Math.trunc(y_pointer_position / current_height * 
@@ -258,7 +265,7 @@ class Map extends Component {
     handleLeave = e => {
         e.evt.preventDefault();
 
-        this.audioPlayer.map_leaved();
+        this.backgroundPlayer.map_leaved();
     }
 
     getMarginLeft() {
@@ -311,12 +318,16 @@ class Map extends Component {
                     showSummary={this.showSummary}
                     changePlaying={
                         () => {
-                            if (this.audioPlayer.stopped) {
-                                this.audioPlayer.unstop();
+                            if (this.backgroundPlayer.stopped) {
+                                this.backgroundPlayer.unstop();
+                                if (this.soundEffectsPlayer)
+                                    this.soundEffectsPlayer.unstop();
                                 return;
                             }
-                            this.audioPlayer.stop();
-                            return this.audioPlayer.stopped;
+                            this.backgroundPlayer.stop();
+                            if (this.soundEffectsPlayer)
+                                this.soundEffectsPlayer.stop();
+                            return this.backgroundPlayer.stopped;
                         }
                     }
                 />
