@@ -149,14 +149,19 @@ class Map extends Component {
                     map_image.addEventListener('load', this.handleLoad);
                     this.setState({image: map_image, found: true});
                     this.backgroundPlayer = new AudioPlayer(data.audio_map, data.tracks);
+                    this.backgroundPlayer.player.volume = 0.5;
 
-                    if (data.effects.length !== 0) {
-                        this.soundEffectsPlayer = new AudioPlayer(data.effects_map, data.effects);
-                    }
-                    
                     let parts = data.audio_map.split(',');
                     this.vertical_parts_count = parts.length;
                     this.horizontal_parts_count = (parts[0].trim()).split(' ').length;
+
+
+                    if (data.effects.length !== 0) {
+                        this.soundEffectsPlayer = new AudioPlayer(data.effects_map, data.effects);
+                        parts = data.effects_map.split(',')
+                        this.vertical_parts_effects_count = parts.length;
+                        this.horizontal_parts_effects_count = (parts[0].trim()).split(' ').length;
+                    }
                 }
             })
             .catch(err => console.log('Send failed', err));
@@ -260,12 +265,22 @@ class Map extends Component {
             Math.trunc(y_pointer_position / current_height * 
                 this.vertical_parts_count)
         );
+
+        if (!!this.soundEffectsPlayer) {
+            this.soundEffectsPlayer.change(
+                Math.trunc(x_pointer_position / current_width * 
+                    this.horizontal_parts_effects_count), 
+                Math.trunc(y_pointer_position / current_height * 
+                    this.vertical_parts_effects_count)
+            );
+        }
     }
 
     handleLeave = e => {
         e.evt.preventDefault();
 
         this.backgroundPlayer.map_leaved();
+        this.soundEffectsPlayer.map_leaved();
     }
 
     getMarginLeft() {
