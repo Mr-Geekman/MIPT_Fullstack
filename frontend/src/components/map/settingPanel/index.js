@@ -16,21 +16,30 @@ const SettingPanel = (props) => (
             onClick={
                 e => {
                     let eye = e.currentTarget;
-                    if (!props.changeVisability()) {
-                        eye.style.color = "white";
+                    let brow = eye.children[0];
+                    let traverser = eye.children[1];
+                    if (props.changeVisability()) {
+                        brow.style.borderColor = 
+                            "black transparent transparent transparent";
+                        eye.style.color = "black";
+                        traverser.style.height = "40px";
                         return;
                     }
-                    eye.style.color = "black";
+                    eye.style.color = "white";
+                    brow.style.borderColor = 
+                        "white transparent transparent transparent";
+                    traverser.style.height = "0px";
                 }
             }
         >
             &bull;
             <div className={"brow"} />
+            <div className={"traverser"} />
         </div>
         <div
             className={"speaker-sign"}
             onClick={() => {
-                let son = document.getElementsByClassName("traverser")[0];
+                let son = document.querySelector('.speaker-sign > .traverser');
                 if (props.changePlaying()) {
                     son.style.height = "40px";
                     return;

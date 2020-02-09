@@ -132,7 +132,6 @@ class Map extends Component {
                 }
             })
             .then(data => {
-                console.log(data);
                 this.setState({ imageData: data });
                 if(this.state.imageData) {
                     const stageScaleValue = Math.min(
@@ -230,7 +229,6 @@ class Map extends Component {
     };
     
     handleClick = (index) => {
-        //console.log(index);
         return e => {
             e.evt.preventDefault();
             this.setState({
@@ -345,8 +343,6 @@ class Map extends Component {
                     }))
             );
         }
-
-        console.log('render', this.state)
 
         return (
             <main>

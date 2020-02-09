@@ -47,10 +47,7 @@ class InformationPanel extends Component {
             margin_left = "60vw";
         }
 
-        console.log(margin_left)
-
         if (!this.props.source) {
-            console.log('Alles gut')
             return (
                 <div className={"information-panel"} style={
                     {
