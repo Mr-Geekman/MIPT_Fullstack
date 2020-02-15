@@ -19,8 +19,11 @@ from django.contrib.staticfiles.urls import static, staticfiles_urlpatterns
 
 from . import settings
 
+from django.views.generic import TemplateView
+from django.views.decorators.cache import never_cache
 
 urlpatterns = [
+    path('', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
     path('api/maps/', include('maps.urls')),
     path('api/auth/', include('jwt_auth.urls')),
