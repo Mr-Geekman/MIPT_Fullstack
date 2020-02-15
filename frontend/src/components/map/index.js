@@ -231,6 +231,7 @@ class Map extends Component {
     handleClick = (index) => {
         return e => {
             e.evt.preventDefault();
+            document.querySelector('.information-panel').scrollTop = 0;
             this.setState({
                 inform: this.state.imageData.marks[index].mark_description_items,
                 markersOpacity: 0

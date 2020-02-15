@@ -3,7 +3,6 @@ import * as Constants from "../../../constants/constants";
 import './styles.css'
 
 function renderNode(node) {
-    console.log('node', node)
     switch (node.type) {
         case 'h1':
             return (
@@ -49,17 +48,19 @@ class InformationPanel extends Component {
 
         if (!this.props.source) {
             return (
-                <div className={"information-panel"} style={
-                    {
-                        "margin-left": margin_left,
-                        height: this.props.height
+                <div 
+                    className={"information-panel"} 
+                    style={
+                        {
+                            "margin-left": margin_left,
+                            height: this.props.height
+                        }
                     }
-                }>
+                >
                 </div>
             );
         }
 
-        console.log(this.props.source)
         return (
             <div className={"information-panel"} style={
                 {
