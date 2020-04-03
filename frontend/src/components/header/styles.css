@@ -51,6 +51,7 @@ header {
     text-align: center;
 }
 
+
 .g-logo {
     font-family: "Times New Roman", sans-serif;
     color: #8c8e8a;
@@ -65,6 +66,24 @@ header {
     position: absolute;
     margin-top: 11pt;
     margin-left: 9pt;
+}
+
+@-moz-document url-prefix() {
+    .g-logo {
+        font-family: "Times New Roman", sans-serif;
+        color: #8c8e8a;
+        font-size: 28pt;
+        position: absolute;
+    }
+
+    .z-logo {
+        font-family: "Times New Roman", sans-serif;
+        color: #ddddde;
+        font-size: 23pt;
+        position: absolute;
+        margin-top: 22pt;
+        margin-left: 15pt;
+    }
 }
 
 .user-div {
