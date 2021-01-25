@@ -4,7 +4,11 @@
 
 Проект в рамках курс Fullstack-разработки в 5 семестре ФИВТ МФТИ
 
-Смотреть сайт можно по ![ссылке](maps-gaze.herokuapp.com)
+Смотреть сайт можно по [ссылке](https://maps-gaze.herokuapp.com/)
+
+[Карта](https://maps-gaze.herokuapp.com/maps/lovecraft) по мотивам творчества Лавкрафта
+
+[404-ая страница](https://maps-gaze.herokuapp.com/404)
 
 ## Запуск проекта локально
 
